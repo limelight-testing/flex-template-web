@@ -25,7 +25,7 @@
     },
     "NODE_ENV": {
       "description": "Node env. Use 'development' for development and 'production' for production.",
-      "value": "production"
+      "value": "development"
     },
     "REACT_APP_ENV": {
       "description": "A more fine grained env definition than NODE_ENV. Is used for example to differentiate envs in logging.",
