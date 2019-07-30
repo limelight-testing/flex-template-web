@@ -39,19 +39,67 @@ export const skills = [
     key: 'piano',
     label: 'Piano',
   },
+  
+  
 ];
 
 export const categories = [
-  { key: 'singer', label: 'Singer' },
-  { key: 'rapper', label: 'Rapper' },
-  { key: 'lightingtech', label: 'Lighting Tech' },
-  { key: 'audioengineer', label: 'Audio Engineer' },
-  { key: 'drummer', label: 'Drummer' },
-  { key: 'guitarist', label: 'Guitarist' },
-  { key: 'pianist', label: 'Pianist' },
-  { key: 'bassist', label: 'Bassist' },
-  { key: 'eventproducer', label: 'Event Producer' },
-  { key: 'stagehand', label: 'Stage Hand' },
+  //Performers
+  // {
+  //   key: 'performers',
+  //   label: 'Performer',
+  //   subCategories: [
+      { key: 'singer', label: 'Singer' },
+      { key: 'rapper', label: 'Rapper' },
+      { key: 'backgroundvocalist', label: 'Background Vocalist' },
+      { key: 'dancer', label: 'Dancer' },
+  //   ],
+  //  },
+  
+  //Musicians
+  // {
+  //   key: 'musicians',
+  //   label: 'Musicians',
+  //   subCategories: [
+      { key: 'drummer', label: 'Drummer' },
+      { key: 'guitarist', label: 'Guitarist' },
+      { key: 'pianist', label: 'Pianist' },
+      { key: 'bassist', label: 'Bassist' },
+  //   ],
+  // },
+
+  //Event Production
+  // {
+  //   key: 'production',
+  //   label: 'Production',
+  //   subCategories: [
+      { key: 'lightingtech', label: 'Lighting Tech' },
+      { key: 'stagehand', label: 'Stage Hand/Production Crew' },
+      { key: 'promotionevents', label: 'Event Promotion' },
+      { key: 'audioengineer', label: 'Audio Engineer' },
+  //   ],
+  // },
+  //Music Production
+  { key: 'producer', label: 'Producer' },
+  { key: 'recordingengineer', label: 'Recording Engineer' },
+  { key: 'mixingengineer', label: 'Mixing Engineer' },
+  { key: 'masteringengineer', label: 'Mastering Engineer' },
+  { key: 'studio', label: 'Studio Engineer' },
+  //Public Relations
+  { key: 'pr', label: 'PR specialist' },
+  { key: 'blogger', label: 'Blogger' },
+  { key: 'radiopromoter', label: 'Radio Promoter' },
+  { key: 'socialmediaspecialist', label: 'Social Media Strategist' },
+  { key: 'podcaster', label: 'Podcaster' },
+  { key: 'videohost', label: 'Video Host' },
+  { key: 'radiohost', label: 'Radio Host' },
+  { key: 'streetteam', label: 'Street Team' },
+  //Creatives
+  { key: 'graphicdesigner', label: 'Graphic Designer' },
+  { key: 'photographer', label: 'Photographer' },
+  { key: 'videographer', label: 'Videographer' },
+  { key: 'eventplanner', label: 'Event Planner' },
+  
 ];
 
 // Price filter configuration
