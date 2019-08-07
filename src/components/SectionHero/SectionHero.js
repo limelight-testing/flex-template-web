@@ -14,9 +14,7 @@ const SectionHero = props => {
   return (
     <div className={classes}>
       <div className={css.heroContent}>
-        <h1 className={css.heroMainTitle}>
-          Hire entertainment professionals near you.
-        </h1>
+        <h1 className={css.heroMainTitle}>Hire entertainment professionals near you.</h1>
         <h2 className={css.heroSubTitle}>
           The largest online community for entertainment professionals.
         </h2>
@@ -24,7 +22,7 @@ const SectionHero = props => {
           name="SearchPage"
           to={{
             search:
-              's?address=Finland&bounds=70.0922932%2C31.5870999%2C59.693623%2C20.456500199999937',
+              's?address=Atlanta%2C%20USA&bounds=33.8876179%2C-84.289389%2C33.6478079%2C-84.5518189',
           }}
           className={css.heroButton}
         >
