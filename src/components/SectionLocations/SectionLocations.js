@@ -51,17 +51,17 @@ const SectionLocations = props => {
         {locationLink(
           'Atlanta',
           atlantaImage,
-          '?address=Atlanta%2C%20USA&bounds=33.8876179%2C-84.289389%2C33.6478079%2C-84.5518189'
+          'address=Atlanta%2C%20USA&bounds=33.8876179%2C-84.289389%2C33.6478079%2C-84.5518189'
         )}
         {locationLink(
           'Bay Area',
           sfImage,
-          '?address=San%20Francisco%20Bay%20Area%2C%20USA&bounds=38.8642448%2C-121.208178%2C36.8941549%2C-123.632497'
+          'address=San%20Francisco%20Bay%20Area%2C%20USA&bounds=38.8642448%2C-121.208178%2C36.8941549%2C-123.632497'
         )}
         {locationLink(
           'Los Angeles',
           losAngelesImage,
-          '?address=Los%20Angeles%2C%20USA&bounds=34.3373061%2C-118.1552891%2C33.7036519%2C-118.6681759'
+          'address=Los%20Angeles%2C%20USA&bounds=34.3373061%2C-118.1552891%2C33.7036519%2C-118.6681759'
         )}
       </div>
     </div>
