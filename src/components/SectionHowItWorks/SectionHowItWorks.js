@@ -14,9 +14,7 @@ const SectionHowItWorks = props => {
   return (
     <div className={classes}>
       <div className={css.title}>
-        Hiring the right talent for you
-        <br />
-        (How limelight works.)
+        <FormattedMessage id="SectionHowItWorks.titleLineOne" />
       </div>
 
       <div className={css.steps}>
@@ -25,35 +23,32 @@ const SectionHowItWorks = props => {
             <FormattedMessage id="SectionHowItWorks.part1Title" />
           </h2>
           <p>
-          Start by searching for a location. Once you find the talent that you need, simply check the availability, book it, and make a secure payment right away.
+            <FormattedMessage id="SectionHowItWorks.part1Text" />
           </p>
         </div>
 
         <div className={css.step}>
           <h2 className={css.stepTitle}>
-            Have a great event
+            <FormattedMessage id="SectionHowItWorks.part2Title" />
           </h2>
           <p>
-          Meet your talent on the chosen date and. We'll handle the payment to the host after your experience.
-
-
-
+            <FormattedMessage id="SectionHowItWorks.part2Text" />
           </p>
         </div>
 
         <div className={css.step}>
           <h2 className={css.stepTitle}>
-           Review the service provider
+            <FormattedMessage id="SectionHowItWorks.part3Title" />
           </h2>
           <p>
-          If you enjoyed the experience, let others know by reviewing your service provider. Help others know where to go.
+            <FormattedMessage id="SectionHowItWorks.part3Text" />
           </p>
         </div>
       </div>
 
       <div className={css.createListingLink}>
         <NamedLink name="NewListingPage">
-         PS. You can also become a Limelight service provider in just a few clicks!
+          <FormattedMessage id="SectionHowItWorks.createListingLink" />
         </NamedLink>
       </div>
     </div>
