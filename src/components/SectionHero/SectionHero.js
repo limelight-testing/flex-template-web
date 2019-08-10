@@ -1,6 +1,6 @@
 import React from 'react';
 import { string } from 'prop-types';
-
+import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames';
 import { NamedLink } from '../../components';
 
@@ -14,9 +14,11 @@ const SectionHero = props => {
   return (
     <div className={classes}>
       <div className={css.heroContent}>
-        <h1 className={css.heroMainTitle}>Hire entertainment professionals near you.</h1>
+        <h1 className={css.heroMainTitle}>
+          <FormattedMessage id="SectionHero.title" />
+        </h1>
         <h2 className={css.heroSubTitle}>
-          The largest online community for entertainment professionals.
+          <FormattedMessage id="SectionHero.subTitle" />
         </h2>
         <NamedLink
           name="SearchPage"
@@ -26,7 +28,7 @@ const SectionHero = props => {
           }}
           className={css.heroButton}
         >
-          Browse local talent
+          <FormattedMessage id="SectionHero.browseButton" />
         </NamedLink>
       </div>
     </div>
