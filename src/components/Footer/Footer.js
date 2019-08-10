@@ -54,9 +54,10 @@ const renderSocialMediaLinks = intl => {
 };
 
 const Footer = props => {
-  const { rootClassName, className, intl } = props;
+  const { rootClassName, className, intl, siteTitle } = props;
   const socialMediaLinks = renderSocialMediaLinks(intl);
   const classes = classNames(rootClassName || css.root, className);
+  const year = new Date().getFullYear();
 
   return (
     <div className={classes}>
@@ -74,7 +75,7 @@ const Footer = props => {
                 </p>
                 <p className={css.organizationCopyright}>
                   <NamedLink name="LandingPage" className={css.copyrightLink}>
-                    <FormattedMessage id="Footer.copyright" />
+                    <FormattedMessage id="Footer.copyright" values={{ siteTitle, year }} />
                   </NamedLink>
                 </p>
               </div>
@@ -256,7 +257,7 @@ const Footer = props => {
           </div>
           <div className={css.copyrightAndTermsMobile}>
             <NamedLink name="LandingPage" className={css.organizationCopyrightMobile}>
-              <FormattedMessage id="Footer.copyright" />
+              <FormattedMessage id="Footer.copyright" values={{ siteTitle, year }} />
             </NamedLink>
             <div className={css.tosAndPrivacyMobile}>
               <NamedLink name="PrivacyPolicyPage" className={css.privacy}>
