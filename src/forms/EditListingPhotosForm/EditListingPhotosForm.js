@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { propTypes } from '../../util/types';
 import { nonEmptyArray, composeValidators } from '../../util/validators';
 import { isUploadImageOverLimitError } from '../../util/errors';
-import { AddImages, Button, Form, ValidationError } from '../../components';
+import { AddImages, Button, FieldTextInput, Form, ValidationError } from '../../components';
 
 import css from './EditListingPhotosForm.css';
 
@@ -127,6 +127,8 @@ export class EditListingPhotosFormComponent extends Component {
 
           const classes = classNames(css.root, className);
 
+          const YOUTUBE_URL_MAX_LENGTH = 100;
+
           return (
             <Form
               className={classes}
@@ -203,6 +205,20 @@ export class EditListingPhotosFormComponent extends Component {
               <p className={css.tip}>
                 <FormattedMessage id="EditListingPhotosForm.addImagesTip" />
               </p>
+
+              <FieldTextInput
+                id="youtube"
+                name="youtube"
+                type="text"
+                className={css.channelLink}
+                label={intl.formatMessage({ id: 'EditListingPhotosForm.youtubeLabel' })}
+                placeholder={intl.formatMessage({ id: 'EditListingPhotosForm.youtubePlaceholder' })}
+                maxLength={YOUTUBE_URL_MAX_LENGTH}
+                {
+                  /* TODO: add validators */ ...{}
+                }
+              />
+
               {publishListingFailed}
               {showListingFailed}
 
