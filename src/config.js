@@ -177,6 +177,8 @@ const maps = {
   },
 };
 
+const youtubeAPIKey = process.env.REACT_APP_YOUTUBE_API_KEY;
+
 // NOTE: only expose configuration that should be visible in the
 // client side, don't add any server secrets in this file.
 const config = {
@@ -217,6 +219,7 @@ const config = {
   usingSSL,
   maps,
   custom,
+  youtubeAPIKey,
 };
 
 export default config;
