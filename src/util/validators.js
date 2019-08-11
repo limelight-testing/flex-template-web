@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { types as sdkTypes } from './sdkLoader';
 import toPairs from 'lodash/toPairs';
+import youtube from './youtubeAPILoader';
 
 const { LatLng, Money } = sdkTypes;
 
@@ -218,6 +219,16 @@ export const validHKID = message => value => {
 
   return isValid ? VALID : message;
 };
+
+//////////////////////////////
+// UCHE'S CUSTOM VALIDATORS //
+//////////////////////////////
+
+export const validYoutubeChannel = (
+  invalidURLMessage,
+  notAChannelMessage,
+  networkErrorMessage
+) => value => null;
 
 export const composeValidators = (...validators) => value =>
   validators.reduce((error, validator) => error || validator(value), VALID);
