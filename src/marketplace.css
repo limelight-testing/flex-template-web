@@ -40,6 +40,11 @@
     }
   }
 
+  --simpleListStyles {
+    list-style: circle;
+    font-size: 0.8em;
+  }
+
   /* ================ Colors ================ */
 
   --marketplaceColor: #32a714;

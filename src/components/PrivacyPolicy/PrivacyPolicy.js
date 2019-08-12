@@ -25,7 +25,7 @@ to exceed most existing privacy standards.
 </p>
 <p>
 THEREFORE, this Privacy Policy Agreement shall apply toThe Limelight Internet Showcase,
-LLC, and thus it shall govern any and all data collection and usage thereof. Through the use of <ExternalLink href="https://www.limelightmusicmarketplace.com">www.limelightmusicmarketplace.com</ExternalLink> you are herein consenting to the following data procedures
+LLC, and thus it shall govern any and all data collection and usage thereof. Through the use of <ExternalLink href="https://www.limelightmusicmarketplace.com">https://www.limelightmusicmarketplace.com</ExternalLink> you are herein consenting to the following data procedures
 expressed within this agreement.
       </p>
 <p>

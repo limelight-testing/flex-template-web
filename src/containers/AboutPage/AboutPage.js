@@ -53,7 +53,7 @@ const AboutPage = () => {
 
               <p>
                 Being Paid in Experience / Exposure sucks. Let’s be real, experience is awesome, until you have to pay your bills with it. We are giving users a chance to make money, as they gain the valuable experience that will help to take their careers to the next level. Make your talent your full-time-job.
-                Simply sign up at <ExternalLink href="https://www.limelightmusicmarketplace">www.limelightmusicmarketplace</ExternalLink>, and get to work today!!
+                Simply sign up at <ExternalLink href="https://www.limelightmusicmarketplace">https://www.limelightmusicmarketplace</ExternalLink>, and get to work today!!
               </p>
               <p>
                 We are not only creating a pool of TOP talent, we are helping you connect to the right person for the job. Save time, money, and energy, by finding the right person for the job the first time. We have a rating system that will allow you to filter and search for the ideal local talent to make your next event or project that way that you want. Now, what can the Limelight do for you?
