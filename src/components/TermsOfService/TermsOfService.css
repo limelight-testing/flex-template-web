@@ -24,3 +24,7 @@
     }
   }
 }
+
+.list li {
+  @apply --simpleListStyles;
+}
