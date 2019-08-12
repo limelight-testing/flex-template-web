@@ -1,6 +1,5 @@
-import { google } from 'googleapis';
 import config from '../config';
 
-const youtube = google.youtube({ version: 'v3', auth: config.youtubeAPIKey });
+// const youtube = gapi.client.init({ apiKey: config.youtubeAPIKey });
 
-export default youtube;
+// export default youtube;
