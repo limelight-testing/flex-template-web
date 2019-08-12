@@ -6,7 +6,7 @@ import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 import classNames from 'classnames';
 import { propTypes } from '../../util/types';
-import { nonEmptyArray, composeValidators } from '../../util/validators';
+import { nonEmptyArray, validYoutubeChannel, composeValidators } from '../../util/validators';
 import { isUploadImageOverLimitError } from '../../util/errors';
 import { AddImages, Button, FieldTextInput, Form, ValidationError } from '../../components';
 
@@ -42,7 +42,7 @@ export class EditListingPhotosFormComponent extends Component {
         {...this.props}
         onImageUploadHandler={this.onImageUploadHandler}
         imageUploadRequested={this.state.imageUploadRequested}
-        initialValues={{ images: this.props.images }}
+        initialValues={{ images: this.props.images, youtube: this.props.initialValues.youtube }}
         render={fieldRenderProps => {
           const {
             form,
@@ -54,6 +54,7 @@ export class EditListingPhotosFormComponent extends Component {
             imageUploadRequested,
             intl,
             invalid,
+            validating,
             onImageUploadHandler,
             onRemoveImage,
             ready,
@@ -123,11 +124,20 @@ export class EditListingPhotosFormComponent extends Component {
           const submitReady = (updated && pristineSinceLastSubmit) || ready;
           const submitInProgress = updateInProgress;
           const submitDisabled =
-            invalid || disabled || submitInProgress || imageUploadRequested || ready;
+            validating || invalid || disabled || submitInProgress || imageUploadRequested || ready;
 
           const classes = classNames(css.root, className);
 
           const YOUTUBE_URL_MAX_LENGTH = 100;
+          const invalidYoutubeMessage = intl.formatMessage({
+            id: 'EditListingPhotosForm.invalidYoutubeAccount',
+          });
+          const networkErrorMessage = intl.formatMessage({
+            id: 'EditListingPhotosForm.networkError',
+          });
+          const validatingMessage = intl.formatMessage({
+            id: 'EditListingPhotosForm.validatingMessage',
+          });
 
           return (
             <Form
@@ -214,9 +224,11 @@ export class EditListingPhotosFormComponent extends Component {
                 label={intl.formatMessage({ id: 'EditListingPhotosForm.youtubeLabel' })}
                 placeholder={intl.formatMessage({ id: 'EditListingPhotosForm.youtubePlaceholder' })}
                 maxLength={YOUTUBE_URL_MAX_LENGTH}
-                {
-                  /* TODO: add validators */ ...{}
-                }
+                validate={composeValidators(
+                  validYoutubeChannel(invalidYoutubeMessage, networkErrorMessage)
+                )}
+                validating={validating}
+                validatingMessage={validatingMessage}
               />
 
               {publishListingFailed}

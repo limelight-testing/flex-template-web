@@ -17,6 +17,7 @@ import configureStore from './store';
 import routeConfiguration from './routeConfiguration';
 import Routes from './Routes';
 import config from './config';
+import youtube from './util/youtubeAPILoader';
 
 // Flex template application uses English translations as default.
 import defaultMessages from './translations/en.json';
@@ -82,6 +83,10 @@ const setupLocale = () => {
   // See: http://momentjs.com/docs/#/i18n/changing-locale/
   moment.locale(config.locale);
 };
+
+// Load Youtube API
+/* eslint-disable-next-line no-undef */
+gapi.load('client', youtube.configure);
 
 export const ClientApp = props => {
   const { store } = props;

@@ -24,3 +24,8 @@
     }
   }
 }
+
+.list li {
+  list-style: circle;
+  font-size: 0.8em;
+}

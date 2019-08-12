@@ -1,7 +1,6 @@
 import moment from 'moment';
 import { types as sdkTypes } from './sdkLoader';
 import toPairs from 'lodash/toPairs';
-// import youtubeAPI from './youtubeAPILoader';
 
 const { LatLng, Money } = sdkTypes;
 
@@ -224,33 +223,38 @@ export const validHKID = message => value => {
 // UCHE'S CUSTOM VALIDATORS //
 //////////////////////////////
 
-// export const validYoutubeChannel = (
-//   invalidURLMessage,
-//   notAChannelMessage,
-//   networkErrorMessage
-// ) => value => {
-//   const urlRgx = /^https:\/\/www\.youtube\.com\/(channel|user)\/(.*)$/;
-//   const matches = value.match(urlRgx);
+// TODO: test this validator
+export const validYoutubeChannel = (notAChannelMessage, networkErrorMessage) => value => {
+  // this field is not required
+  if (!value || value.length === 0) return VALID;
 
-//   if (!matches) return invalidURLMessage;
+  const urlRgx = /^https:\/\/www\.youtube\.com\/(channel|user)\/(.*)$/;
+  const matches = value.match(urlRgx);
 
-//   const [, type, id] = matches;
-//   const filters = { channel: 'id', user: 'forUsername' };
+  if (!matches) return notAChannelMessage;
 
-//   // need to query Youtube API to verify that the URL is correct
-//   const youtube = youtubeAPI.configure();
-//   return youtube.channels
-//     .list({ part: 'id', [filters[type]]: id })
-//     .then(res => {
-//       if (res.pageInfo.totalResults === 0) {
-//         return notAChannelMessage;
-//       } else {
-//         return VALID;
-//       }
-//     })
-//     .catch(() => networkErrorMessage);
-// };
-// window.validate = validYoutubeChannel;
+  const [, type, id] = matches;
+  const filters = { channel: 'id', user: 'forUsername' };
+
+  // don't validate if Youtube API isn't loaded
+  /* eslint-disable-next-line no-undef */
+  if (!gapi.client) return VALID;
+  /* eslint-disable-next-line no-undef */
+  if (!gapi.client.youtube) return VALID;
+
+  // need to query Youtube API to verify that the URL is correct
+  /* eslint-disable-next-line no-undef */
+  return gapi.client.youtube.channels
+    .list({ part: 'id', [filters[type]]: id })
+    .then(({ result }) => {
+      if (result.pageInfo.totalResults === 0) {
+        return notAChannelMessage;
+      } else {
+        return VALID;
+      }
+    })
+    .catch(() => networkErrorMessage);
+};
 
 export const composeValidators = (...validators) => value =>
   validators.reduce((error, validator) => error || validator(value), VALID);

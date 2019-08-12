@@ -11,10 +11,16 @@ import css from './ValidationError.css';
  * shown.
  */
 const ValidationError = props => {
-  const { rootClassName, className, fieldMeta } = props;
-  const { touched, error } = fieldMeta;
+  const { rootClassName, className, fieldMeta, validatingMessage } = props;
+  const { touched, error, validating } = fieldMeta;
   const classes = classNames(rootClassName || css.root, className);
-  return touched && error ? <div className={classes}>{error}</div> : null;
+  const getMessage = message => <div className={classes}>{message}</div>;
+
+  return touched && validating
+    ? getMessage(validatingMessage)
+    : touched && error
+    ? getMessage(error)
+    : null;
 };
 
 ValidationError.defaultProps = { rootClassName: null, className: null };
@@ -24,9 +30,11 @@ const { shape, bool, string } = PropTypes;
 ValidationError.propTypes = {
   rootClassName: string,
   className: string,
+  validatingMessage: string,
   fieldMeta: shape({
     touched: bool.isRequired,
     error: string,
+    validating: bool,
   }).isRequired,
 };
 

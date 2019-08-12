@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { func, object, shape, string } from 'prop-types';
+import { bool, func, object, shape, string } from 'prop-types';
 import { Field } from 'react-final-form';
 import classNames from 'classnames';
 import { ValidationError, ExpandingTextarea } from '../../components';
@@ -21,6 +21,8 @@ class FieldTextInputComponent extends Component {
       type,
       input,
       meta,
+      validating,
+      validatingMessage,
       onUnmount,
       ...rest
     } = this.props;
@@ -39,7 +41,7 @@ class FieldTextInputComponent extends Component {
     // field has been touched and the validation has failed.
     const hasError = !!customErrorText || !!(touched && invalid && error);
 
-    const fieldMeta = { touched: hasError, error: errorText };
+    const fieldMeta = { touched: hasError, error: errorText, validating };
 
     const inputClasses =
       inputRootClass ||
@@ -57,7 +59,7 @@ class FieldTextInputComponent extends Component {
       <div className={classes}>
         {label ? <label htmlFor={id}>{label}</label> : null}
         {isTextarea ? <ExpandingTextarea {...inputProps} /> : <input {...inputProps} />}
-        <ValidationError fieldMeta={fieldMeta} />
+        <ValidationError validatingMessage={validatingMessage} fieldMeta={fieldMeta} />
       </div>
     );
   }
@@ -79,6 +81,13 @@ FieldTextInputComponent.propTypes = {
   inputRootClass: string,
 
   onUnmount: func,
+
+  // Supplied by the wrapping Form because Final Form apparently
+  // doesn't supply this to the Field as the docs claim
+  validating: bool,
+
+  // Needed for when Field is validating in an async manner
+  validatingMessage: string,
 
   // Error message that can be manually passed to input field,
   // overrides default validation message
