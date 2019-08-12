@@ -24,7 +24,6 @@
     "express-sitemap": "^1.8.0",
     "final-form": "^4.11.0",
     "final-form-arrays": "^1.1.0",
-    "googleapis": "^42.0.0",
     "helmet": "^3.18.0",
     "heroku": "^7.26.2",
     "lodash": "^4.17.11",
