@@ -236,10 +236,15 @@ export const validYoutubeChannel = (notAChannelMessage, networkErrorMessage) => 
   const [, type, id] = matches;
   const filters = { channel: 'id', user: 'forUsername' };
 
+  // don't validate if Youtube API isn't loaded
+  /* eslint-disable-next-line no-undef */
+  if (!gapi.client) return VALID;
+  /* eslint-disable-next-line no-undef */
+  if (!gapi.client.youtube) return VALID;
+
   // need to query Youtube API to verify that the URL is correct
   /* eslint-disable-next-line no-undef */
-  const { youtube } = gapi.client;
-  return youtube.channels
+  return gapi.client.youtube.channels
     .list({ part: 'id', [filters[type]]: id })
     .then(({ result }) => {
       if (result.pageInfo.totalResults === 0) {

@@ -42,7 +42,7 @@ export class EditListingPhotosFormComponent extends Component {
         {...this.props}
         onImageUploadHandler={this.onImageUploadHandler}
         imageUploadRequested={this.state.imageUploadRequested}
-        initialValues={{ images: this.props.images }}
+        initialValues={{ images: this.props.images, youtube: this.props.initialValues.youtube }}
         render={fieldRenderProps => {
           const {
             form,

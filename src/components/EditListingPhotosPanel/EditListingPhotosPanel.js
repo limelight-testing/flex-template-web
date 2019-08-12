@@ -44,6 +44,8 @@ class EditListingPhotosPanel extends Component {
       <FormattedMessage id="EditListingPhotosPanel.createListingTitle" />
     );
 
+    const { youtube } = currentListing.attributes.publicData;
+
     return (
       <div className={classes}>
         <h1 className={css.title}>{panelTitle}</h1>
@@ -52,12 +54,13 @@ class EditListingPhotosPanel extends Component {
           disabled={fetchInProgress}
           ready={newListingPublished}
           fetchErrors={errors}
-          initialValues={{ images }}
+          initialValues={{ images, youtube }}
           images={images}
           onImageUpload={onImageUpload}
           onSubmit={values => {
             const { addImage, ...updateValues } = values;
-            onSubmit(updateValues);
+            const { images, ...rest } = updateValues;
+            onSubmit({ images, publicData: { ...rest } });
           }}
           onChange={onChange}
           onUpdateImageOrder={onUpdateImageOrder}
