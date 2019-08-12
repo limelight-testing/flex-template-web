@@ -16,7 +16,11 @@ const ValidationError = props => {
   const classes = classNames(rootClassName || css.root, className);
   const getMessage = message => <div className={classes}>{message}</div>;
 
-  return validating ? getMessage(validatingMessage) : touched && error ? getMessage(error) : null;
+  return touched && validating
+    ? getMessage(validatingMessage)
+    : touched && error
+    ? getMessage(error)
+    : null;
 };
 
 ValidationError.defaultProps = { rootClassName: null, className: null };
