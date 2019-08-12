@@ -277,11 +277,13 @@ const Footer = props => {
 Footer.defaultProps = {
   rootClassName: null,
   className: null,
+  siteTitle: config.siteTitle,
 };
 
 Footer.propTypes = {
   rootClassName: string,
   className: string,
+  siteTitle: string,
   intl: intlShape.isRequired,
 };
 
