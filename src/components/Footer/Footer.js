@@ -54,9 +54,10 @@ const renderSocialMediaLinks = intl => {
 };
 
 const Footer = props => {
-  const { rootClassName, className, intl } = props;
+  const { rootClassName, className, intl, siteTitle } = props;
   const socialMediaLinks = renderSocialMediaLinks(intl);
   const classes = classNames(rootClassName || css.root, className);
+  const year = new Date().getFullYear();
 
   return (
     <div className={classes}>
@@ -70,11 +71,11 @@ const Footer = props => {
               </NamedLink>
               <div className={css.organizationInfo}>
                 <p className={css.organizationDescription}>
-                  The largest talent pool for your local events.
+                  <FormattedMessage id="Footer.organizationDescription" />
                 </p>
                 <p className={css.organizationCopyright}>
                   <NamedLink name="LandingPage" className={css.copyrightLink}>
-                    <FormattedMessage id="Footer.copyright" />
+                    <FormattedMessage id="Footer.copyright" values={{ siteTitle, year }} />
                   </NamedLink>
                 </p>
               </div>
@@ -83,7 +84,7 @@ const Footer = props => {
               <ul className={css.list}>
                 <li className={css.listItem}>
                   <NamedLink name="NewListingPage" className={css.link}>
-                    Add a talent
+                    <FormattedMessage id="Footer.toNewListingPage" />
                   </NamedLink>
                 </li>
                 <li className={css.listItem}>
@@ -115,11 +116,11 @@ const Footer = props => {
                     name="SearchPage"
                     to={{
                       search:
-                        '?address=Helsinki%2C%20Finland&bounds=60.2978389%2C25.254484899999966%2C59.9224887%2C24.782875800000056&origin=60.16985569999999%2C24.93837910000002',
+                        '?address=San%20Francisco%20Bay%20Area%2C%20USA&bounds=38.8642448%2C-121.208178%2C36.8941549%2C-123.632497',
                     }}
                     className={css.link}
                   >
-                    Bay Area
+                    <FormattedMessage id="Footer.searchBayArea" />
                   </NamedLink>
                 </li>
                 <li className={css.listItem}>
@@ -127,11 +128,11 @@ const Footer = props => {
                     name="SearchPage"
                     to={{
                       search:
-                        '?address=Turku%2C%20Finland&bounds=60.5304531%2C22.38197820000005%2C60.33361189999999%2C22.066440100000023&origin=60.4518126%2C22.26663020000001',
+                        '?address=Atlanta%2C%20USA&bounds=33.8876179%2C-84.289389%2C33.6478079%2C-84.5518189',
                     }}
                     className={css.link}
                   >
-                    Atlanta
+                    <FormattedMessage id="Footer.searchAtlanta" />
                   </NamedLink>
                 </li>
                 <li className={css.listItem}>
@@ -139,11 +140,11 @@ const Footer = props => {
                     name="SearchPage"
                     to={{
                       search:
-                        '?address=Tampere%2C%20Finland&bounds=61.83657359999999%2C24.118384099999957%2C61.42728169999999%2C23.542201299999988&origin=61.4977524%2C23.760953500000028',
+                        '?address=New%20York%20City%2C%20New%20York%2C%20United%20States%20of%20America&bounds=40.917576401307%2C-73.7008392055224%2C40.477399%2C-74.2590879797556',
                     }}
                     className={css.link}
                   >
-                    New York
+                    <FormattedMessage id="Footer.searchNewYorkCity" />
                   </NamedLink>
                 </li>
                 <li className={css.listItem}>
@@ -151,11 +152,11 @@ const Footer = props => {
                     name="SearchPage"
                     to={{
                       search:
-                        '?address=Oulu%2C%20Finland&bounds=65.5643426%2C26.770696000000044%2C64.8443082%2C24.114941999999928&origin=65.0120888%2C25.465077199999996',
+                        '?address=Honolulu%2C%20Hawaii%2C%20United%20States%20of%20America&bounds=21.4019889324962%2C-157.64724198503%2C21.2511539869935%2C-157.973467015191',
                     }}
                     className={css.link}
                   >
-                   Honululu
+                    <FormattedMessage id="Footer.searchHonolulu" />
                   </NamedLink>
                 </li>
                 <li className={css.listItem}>
@@ -163,11 +164,11 @@ const Footer = props => {
                     name="SearchPage"
                     to={{
                       search:
-                        '?address=Rukatunturi%2C%20Kuusamo%2C%20Finland&bounds=66.1699707%2C29.167735499999935%2C66.1609529%2C29.13572069999998&origin=66.1654622%2C29.151728100000014',
+                        '?address=Chicago%2C%20Illinois%2C%20United%20States%20of%20America&bounds=42.0234323628388%2C-87.523686109734%2C41.6299229800457%2C-87.9058109309507',
                     }}
                     className={css.link}
                   >
-                    Chicago
+                    <FormattedMessage id="Footer.searchChicago" />
                   </NamedLink>
                 </li>
               </ul>
@@ -179,11 +180,11 @@ const Footer = props => {
                     name="SearchPage"
                     to={{
                       search:
-                        '?address=Kuopio%2C%20Finland&bounds=63.40340329999999%2C28.457629300000008%2C62.592254%2C26.890028099999995&origin=62.89796999999999%2C27.67817249999996',
+                        '?address=Philadelphia%2C%20Pennsylvania%2C%20United%20States%20of%20America&bounds=40.1379937851305%2C-74.9557749984862%2C39.8557310196928%2C-75.2946589071447',
                     }}
                     className={css.link}
                   >
-                   Philadelphia
+                    <FormattedMessage id="Footer.searchPhiladelphia" />
                   </NamedLink>
                 </li>
                 <li className={css.listItem}>
@@ -191,11 +192,11 @@ const Footer = props => {
                     name="SearchPage"
                     to={{
                       search:
-                        '?address=Mikkeli%2C%20Finland&bounds=62.1990357%2C27.900274999999965%2C61.20955799999999%2C26.82762809999997&origin=61.68872709999999%2C27.27214570000001',
+                        '?address=Florida%2C%20United%20States%20of%20America&bounds=31.000884%2C-79.87441%2C24.296468%2C-87.634744',
                     }}
                     className={css.link}
                   >
-                   Florida
+                    <FormattedMessage id="Footer.searchFlorida" />
                   </NamedLink>
                 </li>
                 <li className={css.listItem}>
@@ -203,11 +204,11 @@ const Footer = props => {
                     name="SearchPage"
                     to={{
                       search:
-                        '?address=Espoo%2C%20Finland&bounds=60.3636105%2C24.8505715%2C60.0499087%2C24.499656500000015&origin=60.2054911%2C24.655899999999974',
+                        '?address=New%20Orleans%2C%20Louisiana%2C%20United%20States%20of%20America&bounds=30.177501984872%2C-89.6250500709309%2C29.8270090690494%2C-90.25627101',
                     }}
                     className={css.link}
                   >
-                    New Orleans
+                    <FormattedMessage id="Footer.searchNewOrleans" />
                   </NamedLink>
                 </li>
                 <li className={css.listItem}>
@@ -215,11 +216,11 @@ const Footer = props => {
                     name="SearchPage"
                     to={{
                       search:
-                        '?address=Vantaa%2C%20Finland&bounds=60.40113659999999%2C25.19306240000003%2C60.23714200000001%2C24.746512199999984&origin=60.29335239999999%2C25.037768599999936',
+                        '?address=Washington%2C%20United%20States%20of%20America&bounds=49.002418%2C-116.91568%2C45.543541%2C-124.948858',
                     }}
                     className={css.link}
                   >
-                    Washington
+                    <FormattedMessage id="Footer.searchWashington" />
                   </NamedLink>
                 </li>
                 <li className={css.listItem}>
@@ -227,11 +228,11 @@ const Footer = props => {
                     name="SearchPage"
                     to={{
                       search:
-                        '?address=Ahvenanmaan%20saaristo%2C%20Åland%20Islands&bounds=60.87664400000001%2C21.34532850000005%2C59.45425059999999%2C19.94061499999998&origin=59.8994405%2C20.593996100000027',
+                        '?address=Toronto%2C%20Ontario%2C%20Canada&bounds=43.8554654957061%2C-79.1134670108977%2C43.5603428815601%2C-79.639302406235',
                     }}
                     className={css.link}
                   >
-                    Toronto
+                    <FormattedMessage id="Footer.searchToronto" />
                   </NamedLink>
                 </li>
               </ul>
@@ -256,7 +257,7 @@ const Footer = props => {
           </div>
           <div className={css.copyrightAndTermsMobile}>
             <NamedLink name="LandingPage" className={css.organizationCopyrightMobile}>
-              <FormattedMessage id="Footer.copyright" />
+              <FormattedMessage id="Footer.copyright" values={{ siteTitle, year }} />
             </NamedLink>
             <div className={css.tosAndPrivacyMobile}>
               <NamedLink name="PrivacyPolicyPage" className={css.privacy}>

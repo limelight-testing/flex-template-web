@@ -137,7 +137,7 @@ const TopbarDesktop = props => {
       {search}
       <NamedLink className={css.createListingLink} name="NewListingPage">
         <span className={css.createListing}>
-          + Add a talent
+          <FormattedMessage id="TopbarDesktop.createListing" />
         </span>
       </NamedLink>
       {inboxLink}

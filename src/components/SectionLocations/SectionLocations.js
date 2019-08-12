@@ -46,7 +46,9 @@ const SectionLocations = props => {
 
   return (
     <div className={classes}>
-      <div className={css.title}>Find entertainment professionals in your city</div>
+      <div className={css.title}>
+        <FormattedMessage id="SectionLocations.title" />
+      </div>
       <div className={css.locations}>
         {locationLink(
           'Atlanta',
