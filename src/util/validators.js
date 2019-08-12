@@ -238,9 +238,8 @@ export const validYoutubeChannel = (notAChannelMessage, networkErrorMessage) => 
 
   // don't validate if Youtube API isn't loaded
   /* eslint-disable-next-line no-undef */
-  if (!gapi.client) return VALID;
-  /* eslint-disable-next-line no-undef */
-  if (!gapi.client.youtube) return VALID;
+  const youtubeAPILoaded = gapi && gapi.client && gapi.client.youtube;
+  if (!youtubeAPILoaded) return VALID;
 
   // need to query Youtube API to verify that the URL is correct
   /* eslint-disable-next-line no-undef */

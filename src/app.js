@@ -86,7 +86,7 @@ const setupLocale = () => {
 
 // Load Youtube API
 /* eslint-disable-next-line no-undef */
-gapi.load('client', youtube.configure);
+if (typeof window !== 'undefined' && window.gapi) gapi.load('client', youtube.configure);
 
 export const ClientApp = props => {
   const { store } = props;
