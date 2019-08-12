@@ -124,6 +124,50 @@ and a list of the URL(s) on our site to which you would like to link. Allow 2-3 
 
 <p>No use of The Limelight Internet Showcase, LLC's logo or other artwork will be allowed for linking absent a trademark license
 agreement.</p>
+<h2>Iframes</h2>
+<p>
+Without prior approval and express written permission, you may not create frames around our Web pages or
+use other techniques that alter in any way the visual presentation or appearance of our Web site.
+</p>
+
+<h2>Reservation of Rights</h2>
+<p>
+We reserve the right at any time and in its sole discretion to request that you remove all links or any particular
+link to our Web site. You agree to immediately remove all links to our Web site upon such request. We also
+reserve the right to amend these terms and conditions and its linking policy at any time. By continuing
+to link to our Web site, you agree to be bound to and abide by these linking terms and conditions.</p>
+
+<h2>Removal of links from our website</h2>
+<p>If you find any link on our Web site or any linked web site objectionable for any reason, you may contact
+us about this. We will consider requests to remove links but will have no obligation to do so or to respond
+directly to you.
+Whilst we endeavour to ensure that the information on this website is correct, we do not warrant its completeness
+or accuracy; nor do we commit to ensuring that the website remains available or that the material on the
+website is kept up to date.</p>
+
+<h2>Content Liability</h2>
+<p>We shall have no responsibility or liability for any content appearing on your Web site. You agree to indemnify
+and defend us against all claims arising out of or based upon your Website. No link(s) may appear on any
+page on your Web site or within any context containing content or materials that may be interpreted as
+libelous, obscene or criminal, or which infringes, otherwise violates, or advocates the infringement or
+other violation of, any third party rights.</p>
+
+<h2>Disclaimer</h2>
+<p>To the maximum extent permitted by applicable law, we exclude all representations, warranties and conditions relating to our website and the use of this website (including, without limitation, any warranties implied by law in respect of satisfactory quality, fitness for purpose and/or the use of reasonable care and skill). Nothing in this disclaimer will:</p>
+
+<ul className={css.list}>
+  <li>limit or exclude our or your liability for death or personal injury resulting from negligence;</li>
+  <li>limit or exclude our or your liability for fraud or fraudulent misrepresentation;</li>
+  <li>limit any of our or your liabilities in any way that is not permitted under applicable law; or</li>
+  <li>exclude any of our or your liabilities that may not be excluded under applicable law.</li>
+</ul>
+
+<p>The limitations and exclusions of liability set out in this Section and elsewhere in this disclaimer: (a)
+are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer or
+in relation to the subject matter of this disclaimer, including liabilities arising in contract, in tort
+(including negligence) and for breach of statutory duty.</p>
+<p>To the extent that the website and the information and services on the website are provided free of charge,
+we will not be liable for any loss or damage of any nature.</p>
     </div>
   );
 };
