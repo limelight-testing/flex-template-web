@@ -19,7 +19,7 @@ import {
 } from '../../components';
 import { TopbarContainer } from '../../containers';
 
-import facebookImage from '../../assets/saunatimeFacebook-1200x630.jpg';
+import facebookImage from '../../assets/limelightFacebook-1200x630.jpg';
 import twitterImage from '../../assets/background-1440.jpg';
 import css from './LandingPage.css';
 
