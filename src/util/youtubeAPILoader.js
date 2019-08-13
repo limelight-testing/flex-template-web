@@ -1,10 +1,12 @@
+import axios from 'axios';
 import config from '../config';
 
-const getYoutubeAPI = () =>
-  /* eslint-disable-next-line no-undef */
-  gapi.client.init({
-    apiKey: config.youtubeAPIKey,
-    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'],
+const fetchFromYoutube = (endpoint, params) =>
+  axios.get(`https://www.googleapis.com/youtube/v3/${endpoint}`, {
+    params: {
+      key: config.youtubeAPIKey,
+      ...params,
+    },
   });
 
-export default { configure: getYoutubeAPI };
+export default fetchFromYoutube;

@@ -11,6 +11,7 @@ import {
   LISTING_PAGE_PENDING_APPROVAL_VARIANT,
 } from '../../util/urlHelpers';
 import { fetchCurrentUser, fetchCurrentUserHasOrdersSuccess } from '../../ducks/user.duck';
+import fetchFromYoutube from "../../util/youtubeAPILoader";
 
 const { UUID } = sdkTypes;
 
@@ -295,12 +296,6 @@ export const sendEnquiry = (listingId, message) => (dispatch, getState, sdk) => 
 };
 
 export const fetchYoutubeVideos = youtubeURL => dispatch => {
-  // exit if API is not available
-  const youtubeAPIAvailable =
-    /* eslint-disable-next-line no-undef */
-    typeof window !== 'undefined' && gapi && gapi.client && gapi.client.youtube;
-  if (!youtubeAPIAvailable) return;
-
   dispatch(fetchYoutubeVideosRequest());
 
   const urlRgx = /^https:\/\/www\.youtube\.com\/(channel|user)\/(.*)$/;
@@ -311,13 +306,11 @@ export const fetchYoutubeVideos = youtubeURL => dispatch => {
   const filters = { channel: 'id', user: 'forUsername' };
 
   // first get the channel ID
-  /* eslint-disable-next-line no-undef */
-  return gapi.client.youtube.channels
-    .list({
-      part: 'contentDetails',
-      [filters[type]]: id,
-      fields: 'pageInfo,items(id,contentDetails/relatedPlaylists/uploads)',
-    })
+  return fetchFromYoutube('channels', {
+    part: 'contentDetails',
+    [filters[type]]: id,
+    fields: 'pageInfo,items(id,contentDetails/relatedPlaylists/uploads)',
+  })
     .then(({ result }) => {
       if (result.pageInfo.totalResults === 0) {
         // not a valid channel
@@ -328,15 +321,12 @@ export const fetchYoutubeVideos = youtubeURL => dispatch => {
         // get ID of 'uploads' playlist for the channel
         const playlistId = result.items[0].contentDetails.relatedPlaylists.uploads;
 
-        // fetch 20 most recent videos in the playlist
-        /* eslint-disable-next-line */
-        return gapi.client.youtube.playlistItems
-          .list({
-            part: 'contentDetails',
-            maxResults: 20,
-            playlistId,
-            fields: 'pageInfo,items(id,contentDetails/videoId)',
-          })
+        return fetchFromYoutube('playlistItems', {
+          part: 'contentDetails',
+          maxResults: 20,
+          playlistId,
+          fields: 'pageInfo,items(id,contentDetails/videoId)',
+        })
           .then(({ result }) => {
             if (result.pageInfo.totalResults === 0) {
               // no uploaded videos to display
@@ -349,8 +339,7 @@ export const fetchYoutubeVideos = youtubeURL => dispatch => {
             } else {
               // fetch each video's information
               const videoInfoPromises = result.items.map(({ contentDetails: { videoId } }) => {
-                /* eslint-disable-next-line no-undef */
-                return gapi.client.youtube.videos.list({
+                return fetchFromYoutube('videos', {
                   part: 'snippet,contentDetails,statistics',
                   id: videoId,
                   fields:
@@ -381,14 +370,14 @@ export const fetchYoutubeVideos = youtubeURL => dispatch => {
                 .catch(err => {
                   // one or more videos failed to load
                   // create an error object like that returned by the SDK
-                  // throw it so it's caught by the outer .catch() block
                   const { name, message, ...rest } = err;
                   const errToThrow = {
                     name: name || 'videos-failed-to-load',
                     message: message || 'one or more videos failed to load',
                     ...rest,
                   };
-
+                  
+                  // throw it so it's caught by the outer .catch() block
                   throw errToThrow;
                 });
             }

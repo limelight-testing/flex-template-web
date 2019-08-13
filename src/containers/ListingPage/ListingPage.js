@@ -99,16 +99,8 @@ export class ListingPageComponent extends Component {
   }
 
   startTimer() {
-    // every 0.5s check if Youtube API has been loaded and stop timer if it has
+    // every 0.5s check if listing data has been loaded and stop timer if it has
     this.timer = setInterval(() => {
-      const youtubeAPILoaded =
-        /* eslint-disable-next-line no-undef */
-        typeof window !== 'undefined' && gapi && gapi.client && gapi.client.youtube;
-
-      if (!youtubeAPILoaded) return;
-
-      clearInterval(this.timer);
-
       const { getListing, getOwnListing, onFetchYoutubeVideos, params: rawParams } = this.props;
 
       const listingId = new UUID(rawParams.id);
@@ -125,6 +117,7 @@ export class ListingPageComponent extends Component {
         currentListing.attributes.publicData &&
         currentListing.attributes.publicData.youtube;
       if (canFetchYoutubeVideos) {
+        clearInterval(this.timer);
         onFetchYoutubeVideos(currentListing.attributes.publicData.youtube);
       }
     }, 500);
