@@ -6,14 +6,23 @@ import css from './ListingPage.css';
 const SectionVideosMaybe = ({ videos, fetchVideosError, fetchVideosInProgress }) => (
   <div className={css.sectionVideos}>
     <h2 className={css.videoTitle}>
-      <FormattedMessage id="ListingPage.videoTitle" />
+      <FormattedMessage id="ListingPage.videosTitle" />
     </h2>
-    Num vids: {videos.length}
-    <br />
-    Fetching in progress: {fetchVideosInProgress}
-    <br />
-    Fetching failed: {!!fetchVideosError}
-    <br />
+    <div>
+      {fetchVideosInProgress ? (
+        <FormattedMessage id="ListingPage.videosLoading" />
+      ) : !!fetchVideosError ? (
+        <FormattedMessage id="ListingPage.videosFailedToLoad" />
+      ) : videos.length === 0 ? (
+        <FormattedMessage id="ListingPage.videosEmpty" />
+      ) : (
+        <div>
+          {videos.map((video, idx) => (
+            <div key={idx}>Video</div>
+          ))}
+        </div>
+      )}
+    </div>
   </div>
 );
 
