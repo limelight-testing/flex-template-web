@@ -55,7 +55,7 @@ const initialState = {
   sendEnquiryInProgress: false,
   sendEnquiryError: null,
   enquiryModalOpenForListingId: null,
-  youtubeVideos: [],
+  youtubeVideos: null,
   fetchYoutubeVideosInProgress: false,
   fetchYoutubeVideosError: null,
 };

@@ -9,7 +9,7 @@ const SectionVideosMaybe = ({ videos, fetchVideosError, fetchVideosInProgress })
       <FormattedMessage id="ListingPage.videosTitle" />
     </h2>
     <div>
-      {fetchVideosInProgress ? (
+      {!videos || fetchVideosInProgress ? (
         <FormattedMessage id="ListingPage.videosLoading" />
       ) : !!fetchVideosError ? (
         <FormattedMessage id="ListingPage.videosFailedToLoad" />
