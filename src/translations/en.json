@@ -346,6 +346,7 @@
   "ListingPage.rulesTitle": "Terms",
   "ListingPage.schemaTitle": "{title} - {price} | {siteTitle}",
   "ListingPage.viewImagesButton": "View photos ({count})",
+  "ListingPage.videoTitle": "Videos",
   "ListingPage.yourHostHeading": "Posted by:",
   "LocationAutocompleteInput.currentLocation": "Current location",
   "LocationSearchForm.placeholder": "Search Professionals",
