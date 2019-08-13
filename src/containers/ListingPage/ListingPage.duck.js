@@ -15,6 +15,11 @@ import fetchFromYoutube from '../../util/youtubeAPILoader';
 
 const { UUID } = sdkTypes;
 
+/**
+ * Get the video object from the Youtube API response returned by axios
+ */
+export const getVideoData = response => response.data.items[0];
+
 // ================ Action types ================ //
 
 export const SET_INITAL_VALUES = 'app/ListingPage/SET_INITIAL_VALUES';
@@ -362,7 +367,8 @@ export const fetchYoutubeVideos = youtubeURL => dispatch => {
                     } = secondVid;
                     return items2[0].statistics.viewCount - items1[0].statistics.viewCount;
                   })
-                  .slice(0, 5);
+                  .slice(0, 5)
+                  .map(getVideoData);
 
                 // add them to redux store
                 return dispatch(fetchYoutubeVideosSuccess(top5));

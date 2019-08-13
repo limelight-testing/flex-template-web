@@ -44,6 +44,7 @@ import { sendEnquiry, loadData, setInitialValues, fetchYoutubeVideos } from './L
 import SectionImages from './SectionImages';
 import SectionAvatar from './SectionAvatar';
 import SectionHeading from './SectionHeading';
+import SectionVideosMaybe from './SectionVideosMaybe';
 import SectionDescriptionMaybe from './SectionDescriptionMaybe';
 import SectionFeaturesMaybe from './SectionFeaturesMaybe';
 import SectionReviews from './SectionReviews';
@@ -209,6 +210,9 @@ export class ListingPageComponent extends Component {
       fetchReviewsError,
       sendEnquiryInProgress,
       sendEnquiryError,
+      youtubeVideos,
+      fetchYoutubeVideosInProgress,
+      fetchYoutubeVideosError,
       timeSlots,
       fetchTimeSlotsError,
       categoriesConfig,
@@ -449,6 +453,11 @@ export class ListingPageComponent extends Component {
                     showContactUser={showContactUser}
                     onContactUser={this.onContactUser}
                   />
+                  <SectionVideosMaybe
+                    videos={youtubeVideos}
+                    fetchVideosError={fetchYoutubeVideosError}
+                    fetchVideosInProgress={fetchYoutubeVideosInProgress}
+                  />
                   <SectionDescriptionMaybe description={description} />
                   <SectionFeaturesMaybe options={skillsConfig} publicData={publicData} />
                   <SectionRulesMaybe publicData={publicData} />
@@ -546,6 +555,9 @@ ListingPageComponent.propTypes = {
   sendEnquiryInProgress: bool.isRequired,
   sendEnquiryError: propTypes.error,
   onSendEnquiry: func.isRequired,
+  youtubeVideos: array.isRequired,
+  fetchYoutubeVideosInProgress: bool.isRequired,
+  fetchYoutubeVideosError: propTypes.error,
   onFetchYoutubeVideos: func.isRequired,
 
   categoriesConfig: array,
@@ -562,6 +574,9 @@ const mapStateToProps = state => {
     fetchTimeSlotsError,
     sendEnquiryInProgress,
     sendEnquiryError,
+    youtubeVideos,
+    fetchYoutubeVideosInProgress,
+    fetchYoutubeVideosError,
     enquiryModalOpenForListingId,
   } = state.ListingPage;
   const { currentUser } = state.user;
@@ -589,9 +604,12 @@ const mapStateToProps = state => {
     reviews,
     fetchReviewsError,
     timeSlots,
+    youtubeVideos,
     fetchTimeSlotsError,
     sendEnquiryInProgress,
     sendEnquiryError,
+    fetchYoutubeVideosInProgress,
+    fetchYoutubeVideosError,
   };
 };
 
