@@ -4,6 +4,16 @@ import { ExternalLink } from '../../components';
 
 import css from './ListingPage.css';
 
+const VideoCard = ({ video }) => (
+  <ExternalLink
+    href={`https://www.youtube.com/watch?v=${video.id}`}
+    className={css.videoCard}
+    style={{ backgroundImage: `url(${video.snippet.thumbnails.medium.url})` }}
+  >
+    {video.snippet.title.slice(0, 20)}
+  </ExternalLink>
+);
+
 const SectionVideosMaybe = ({ videos, fetchVideosError, fetchVideosInProgress }) => (
   <div className={css.sectionVideos}>
     <h2 className={css.videoTitle}>
@@ -19,14 +29,7 @@ const SectionVideosMaybe = ({ videos, fetchVideosError, fetchVideosInProgress })
       ) : (
         <div className={css.videosContainer}>
           {videos.map((video, idx) => (
-            <ExternalLink
-              key={idx}
-              href={`https://www.youtube.com/watch?v=${video.id}`}
-              className={css.videoCard}
-              style={{ backgroundImage: `url(${video.snippet.thumbnails.medium.url})` }}
-            >
-              {video.snippet.title.slice(0, 20)}
-            </ExternalLink>
+            <VideoCard key={idx} video={video} />
           ))}
         </div>
       )}
