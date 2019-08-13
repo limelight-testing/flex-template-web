@@ -20,7 +20,7 @@ export const skills = [
     label: 'Drummer',
   },
   {
-    key: 'musicproduce',
+    key: 'musicproduction',
     label: 'Music Production',
   },
   {
@@ -38,6 +38,22 @@ export const skills = [
   {
     key: 'piano',
     label: 'Piano',
+  },
+  {
+    key: 'graphicdesign',
+    label: 'Graphic Design',
+  },
+  {
+    key: 'photography',
+    label: 'Photography',
+  },
+  {
+    key: 'videography',
+    label: 'Videography',
+  },
+  {
+    key: 'promoter',
+    label: 'Promoter',
   },
 ];
 
