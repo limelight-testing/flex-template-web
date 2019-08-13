@@ -18,7 +18,11 @@ const SectionVideosMaybe = ({ videos, fetchVideosError, fetchVideosInProgress })
       ) : (
         <div className={css.videosContainer}>
           {videos.map((video, idx) => (
-            <div key={idx} className={css.videoCard}>
+            <div
+              key={idx}
+              className={css.videoCard}
+              style={{ backgroundImage: `url(${video.snippet.thumbnails.medium.url})` }}
+            >
               {video.snippet.title.slice(0, 20)}
             </div>
           ))}
