@@ -434,6 +434,17 @@
   }
 }
 
+.videosContainer {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.videoCard {
+  flex: 0 0 auto;
+  height: 100px;
+}
+
 .sectionFeatures {
   padding: 0 24px;
   margin-bottom: 32px;

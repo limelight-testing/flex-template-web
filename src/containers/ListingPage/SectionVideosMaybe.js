@@ -16,9 +16,11 @@ const SectionVideosMaybe = ({ videos, fetchVideosError, fetchVideosInProgress })
       ) : videos.length === 0 ? (
         <FormattedMessage id="ListingPage.videosEmpty" />
       ) : (
-        <div>
+        <div className={css.videosContainer}>
           {videos.map((video, idx) => (
-            <div key={idx}>Video</div>
+            <div key={idx} className={css.videoCard}>
+              {video.snippet.title.slice(0, 20)}
+            </div>
           ))}
         </div>
       )}
