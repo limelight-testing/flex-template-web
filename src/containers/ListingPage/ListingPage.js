@@ -83,7 +83,6 @@ export class ListingPageComponent extends Component {
       imageCarouselOpen: false,
       enquiryModalOpen: enquiryModalOpenForListingId === params.id,
     };
-    this.youtubeAPILoaded = false;
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onContactUser = this.onContactUser.bind(this);
@@ -106,9 +105,27 @@ export class ListingPageComponent extends Component {
         /* eslint-disable-next-line no-undef */
         typeof window !== 'undefined' && gapi && gapi.client && gapi.client.youtube;
 
-      if (youtubeAPILoaded) {
-        this.youtubeAPILoaded = true;
-        clearInterval(this.timer);
+      if (!youtubeAPILoaded) return;
+
+      clearInterval(this.timer);
+
+      const { getListing, getOwnListing, onFetchYoutubeVideos, params: rawParams } = this.props;
+
+      const listingId = new UUID(rawParams.id);
+      const isPendingApprovalVariant = rawParams.variant === LISTING_PAGE_PENDING_APPROVAL_VARIANT;
+      const isDraftVariant = rawParams.variant === LISTING_PAGE_DRAFT_VARIANT;
+      const currentListing =
+        isPendingApprovalVariant || isDraftVariant
+          ? ensureOwnListing(getOwnListing(listingId))
+          : ensureListing(getListing(listingId));
+
+      const canFetchYoutubeVideos =
+        currentListing &&
+        currentListing.attributes &&
+        currentListing.attributes.publicData &&
+        currentListing.attributes.publicData.youtube;
+      if (canFetchYoutubeVideos) {
+        onFetchYoutubeVideos(currentListing.attributes.publicData.youtube);
       }
     }, 500);
   }
@@ -191,7 +208,6 @@ export class ListingPageComponent extends Component {
       getOwnListing,
       intl,
       onManageDisableScrolling,
-      onFetchYoutubeVideos,
       params: rawParams,
       location,
       scrollingDisabled,
@@ -213,16 +229,6 @@ export class ListingPageComponent extends Component {
       isPendingApprovalVariant || isDraftVariant
         ? ensureOwnListing(getOwnListing(listingId))
         : ensureListing(getListing(listingId));
-
-    const canFetchYoutubeVideos =
-      this.youtubeAPILoaded &&
-      currentListing &&
-      currentListing.attributes &&
-      currentListing.attributes.publicData &&
-      currentListing.attributes.publicData.youtube;
-    if (canFetchYoutubeVideos) {
-      onFetchYoutubeVideos(currentListing.attributes.publicData.youtube);
-    }
 
     const listingSlug = rawParams.slug || createSlug(currentListing.attributes.title || '');
     const params = { slug: listingSlug, ...rawParams };

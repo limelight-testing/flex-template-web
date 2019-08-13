@@ -33,6 +33,10 @@ export const SEND_ENQUIRY_REQUEST = 'app/ListingPage/SEND_ENQUIRY_REQUEST';
 export const SEND_ENQUIRY_SUCCESS = 'app/ListingPage/SEND_ENQUIRY_SUCCESS';
 export const SEND_ENQUIRY_ERROR = 'app/ListingPage/SEND_ENQUIRY_ERROR';
 
+export const FETCH_YOUTUBE_VIDEOS_REQUEST = 'app/ListingPage/FETCH_YOUTUBE_VIDEOS_REQUEST';
+export const FETCH_YOUTUBE_VIDEOS_SUCCESS = 'app/ListingPage/FETCH_YOUTUBE_VIDEOS_SUCCESS';
+export const FETCH_YOUTUBE_VIDEOS_ERROR = 'app/ListingPage/FETCH_YOUTUBE_VIDEOS_ERROR';
+
 // ================ Reducer ================ //
 
 const initialState = {
@@ -45,6 +49,9 @@ const initialState = {
   sendEnquiryInProgress: false,
   sendEnquiryError: null,
   enquiryModalOpenForListingId: null,
+  youtubeVideos: [],
+  fetchYoutubeVideosInProgress: false,
+  fetchYoutubeVideosError: null,
 };
 
 const listingPageReducer = (state = initialState, action = {}) => {
@@ -78,6 +85,13 @@ const listingPageReducer = (state = initialState, action = {}) => {
       return { ...state, sendEnquiryInProgress: false };
     case SEND_ENQUIRY_ERROR:
       return { ...state, sendEnquiryInProgress: false, sendEnquiryError: payload };
+
+    case FETCH_YOUTUBE_VIDEOS_REQUEST:
+      return { ...state, fetchYoutubeVideosInProgress: true, fetchYoutubeVideosError: null };
+    case FETCH_YOUTUBE_VIDEOS_SUCCESS:
+      return { ...state, fetchYoutubeVideosInProgress: false, youtubeVideos: payload };
+    case FETCH_YOUTUBE_VIDEOS_ERROR:
+      return { ...state, fetchYoutubeVideosInProgress: false, fetchYoutubeVideosError: payload };
 
     default:
       return state;
@@ -126,6 +140,17 @@ export const fetchTimeSlotsError = error => ({
 export const sendEnquiryRequest = () => ({ type: SEND_ENQUIRY_REQUEST });
 export const sendEnquirySuccess = () => ({ type: SEND_ENQUIRY_SUCCESS });
 export const sendEnquiryError = e => ({ type: SEND_ENQUIRY_ERROR, error: true, payload: e });
+
+export const fetchYoutubeVideosRequest = () => ({ type: FETCH_YOUTUBE_VIDEOS_REQUEST });
+export const fetchYoutubeVideosSuccess = videos => ({
+  type: FETCH_YOUTUBE_VIDEOS_SUCCESS,
+  payload: videos,
+});
+export const fetchYoutubeVideosError = e => ({
+  type: FETCH_YOUTUBE_VIDEOS_ERROR,
+  error: true,
+  payload: e,
+});
 
 // ================ Thunks ================ //
 
@@ -269,7 +294,111 @@ export const sendEnquiry = (listingId, message) => (dispatch, getState, sdk) => 
     });
 };
 
-export const fetchYoutubeVideos = youtubeURL => dispatch => {};
+export const fetchYoutubeVideos = youtubeURL => dispatch => {
+  // exit if API is not available
+  const youtubeAPIAvailable =
+    /* eslint-disable-next-line no-undef */
+    typeof window !== 'undefined' && gapi && gapi.client && gapi.client.youtube;
+  if (!youtubeAPIAvailable) return;
+
+  dispatch(fetchYoutubeVideosRequest());
+
+  const urlRgx = /^https:\/\/www\.youtube\.com\/(channel|user)\/(.*)$/;
+  const matches = youtubeURL.match(urlRgx);
+  if (!matches) return;
+
+  const [, type, id] = matches;
+  const filters = { channel: 'id', user: 'forUsername' };
+
+  // first get the channel ID
+  /* eslint-disable-next-line no-undef */
+  return gapi.client.youtube.channels
+    .list({
+      part: 'contentDetails',
+      [filters[type]]: id,
+      fields: 'pageInfo,items(id,contentDetails/relatedPlaylists/uploads)',
+    })
+    .then(({ result }) => {
+      if (result.pageInfo.totalResults === 0) {
+        // not a valid channel
+        // create an error object like that returned by the SDK
+        const err = { name: 'no-youtube-channel', message: 'no matching Youtube channel found' };
+        throw err;
+      } else {
+        // get ID of 'uploads' playlist for the channel
+        const playlistId = result.items[0].contentDetails.relatedPlaylists.uploads;
+
+        // fetch 20 most recent videos in the playlist
+        /* eslint-disable-next-line */
+        return gapi.client.youtube.playlistItems
+          .list({
+            part: 'contentDetails',
+            maxResults: 20,
+            playlistId,
+            fields: 'pageInfo,items(id,contentDetails/videoId)',
+          })
+          .then(({ result }) => {
+            if (result.pageInfo.totalResults === 0) {
+              // no uploaded videos to display
+              // create an error object like that returned by the SDK
+              const err = {
+                name: 'no-uploaded-videos',
+                message: 'no uploaded videos on this Youtube channel',
+              };
+              throw err;
+            } else {
+              // fetch each video's information
+              const videoInfoPromises = result.items.map(({ contentDetails: { videoId } }) => {
+                /* eslint-disable-next-line no-undef */
+                return gapi.client.youtube.videos.list({
+                  part: 'snippet,contentDetails,statistics',
+                  id: videoId,
+                  fields:
+                    'pageInfo,items(snippet(publishedAt,title,thumbnails/medium/url),contentDetails/duration,statistics/viewCount)',
+                });
+              });
+
+              return Promise.all(videoInfoPromises)
+                .then(videos => {
+                  // get the 5 most viewed
+                  const top5 = videos
+                    .sort((firstVid, secondVid) => {
+                      // each array member is a search result
+                      // so it has a `result` object which is a Video resource with shape according to Youtube's API
+                      const {
+                        result: { items: items1 },
+                      } = firstVid;
+                      const {
+                        result: { items: items2 },
+                      } = secondVid;
+                      return items2[0].statistics.viewCount - items1[0].statistics.viewCount;
+                    })
+                    .slice(0, 5);
+
+                  // add them to redux store
+                  return dispatch(fetchYoutubeVideosSuccess(top5));
+                })
+                .catch(err => {
+                  // one or more videos failed to load
+                  // create an error object like that returned by the SDK
+                  // throw it so it's caught by the outer .catch() block
+                  const { name, message, ...rest } = err;
+                  const errToThrow = {
+                    name: name || 'videos-failed-to-load',
+                    message: message || 'one or more videos failed to load',
+                    ...rest,
+                  };
+
+                  throw errToThrow;
+                });
+            }
+          });
+      }
+    })
+    .catch(e => {
+      dispatch(fetchYoutubeVideosError(storableError(e)));
+    });
+};
 
 export const loadData = (params, search) => dispatch => {
   const listingId = new UUID(params.id);
