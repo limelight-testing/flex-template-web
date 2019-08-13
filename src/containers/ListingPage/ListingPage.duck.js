@@ -344,10 +344,10 @@ export const fetchYoutubeVideos = youtubeURL => dispatch => {
             // fetch each video's information
             const videoInfoPromises = data.items.map(({ contentDetails: { videoId } }) => {
               return fetchFromYoutube('videos', {
-                part: 'snippet,contentDetails,statistics',
+                part: 'id,snippet,contentDetails,statistics',
                 id: videoId,
                 fields:
-                  'pageInfo,items(snippet(publishedAt,title,thumbnails/medium/url),contentDetails/duration,statistics/viewCount)',
+                  'pageInfo,items(id,snippet(publishedAt,title,thumbnails/medium/url),contentDetails/duration,statistics/viewCount)',
               });
             });
 

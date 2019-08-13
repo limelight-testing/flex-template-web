@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { ExternalLink } from '../../components';
 
 import css from './ListingPage.css';
 
@@ -18,13 +19,14 @@ const SectionVideosMaybe = ({ videos, fetchVideosError, fetchVideosInProgress })
       ) : (
         <div className={css.videosContainer}>
           {videos.map((video, idx) => (
-            <div
+            <ExternalLink
               key={idx}
+              href={`https://www.youtube.com/watch?v=${video.id}`}
               className={css.videoCard}
               style={{ backgroundImage: `url(${video.snippet.thumbnails.medium.url})` }}
             >
               {video.snippet.title.slice(0, 20)}
-            </div>
+            </ExternalLink>
           ))}
         </div>
       )}
