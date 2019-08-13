@@ -317,7 +317,6 @@ export const fetchYoutubeVideos = youtubeURL => dispatch => {
     fields: 'pageInfo,items(id,contentDetails/relatedPlaylists/uploads)',
   })
     .then(({ data }) => {
-      console.log('success, data:', data);
       if (data.pageInfo.totalResults === 0) {
         // not a valid channel
         // create an error object like that returned by the SDK
@@ -391,7 +390,6 @@ export const fetchYoutubeVideos = youtubeURL => dispatch => {
       }
     })
     .catch(e => {
-      console.log('failure, e:', e);
       dispatch(fetchYoutubeVideosError(storableError(e)));
     });
 };
