@@ -40,7 +40,7 @@ import {
 } from '../../components';
 import { TopbarContainer, NotFoundPage } from '../../containers';
 
-import { sendEnquiry, loadData, setInitialValues } from './ListingPage.duck';
+import { sendEnquiry, loadData, setInitialValues, fetchYoutubeVideos } from './ListingPage.duck';
 import SectionImages from './SectionImages';
 import SectionAvatar from './SectionAvatar';
 import SectionHeading from './SectionHeading';
@@ -105,7 +105,7 @@ export class ListingPageComponent extends Component {
       const youtubeAPILoaded =
         /* eslint-disable-next-line no-undef */
         typeof window !== 'undefined' && gapi && gapi.client && gapi.client.youtube;
-      console.log('youtubeAPILoaded:', youtubeAPILoaded);
+
       if (youtubeAPILoaded) {
         this.youtubeAPILoaded = true;
         clearInterval(this.timer);
@@ -191,6 +191,7 @@ export class ListingPageComponent extends Component {
       getOwnListing,
       intl,
       onManageDisableScrolling,
+      onFetchYoutubeVideos,
       params: rawParams,
       location,
       scrollingDisabled,
@@ -212,6 +213,16 @@ export class ListingPageComponent extends Component {
       isPendingApprovalVariant || isDraftVariant
         ? ensureOwnListing(getOwnListing(listingId))
         : ensureListing(getListing(listingId));
+
+    const canFetchYoutubeVideos =
+      this.youtubeAPILoaded &&
+      currentListing &&
+      currentListing.attributes &&
+      currentListing.attributes.publicData &&
+      currentListing.attributes.publicData.youtube;
+    if (canFetchYoutubeVideos) {
+      onFetchYoutubeVideos(currentListing.attributes.publicData.youtube);
+    }
 
     const listingSlug = rawParams.slug || createSlug(currentListing.attributes.title || '');
     const params = { slug: listingSlug, ...rawParams };
@@ -536,6 +547,7 @@ ListingPageComponent.propTypes = {
   sendEnquiryInProgress: bool.isRequired,
   sendEnquiryError: propTypes.error,
   onSendEnquiry: func.isRequired,
+  onFetchYoutubeVideos: func.isRequired,
 
   categoriesConfig: array,
   skillsConfig: array,
@@ -589,6 +601,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(manageDisableScrolling(componentId, disableScrolling)),
   callSetInitialValues: (setInitialValues, values) => dispatch(setInitialValues(values)),
   onSendEnquiry: (listingId, message) => dispatch(sendEnquiry(listingId, message)),
+  onFetchYoutubeVideos: youtubeURL => dispatch(fetchYoutubeVideos(youtubeURL)),
 });
 
 // Note: it is important that the withRouter HOC is **outside** the

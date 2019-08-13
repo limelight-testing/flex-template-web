@@ -269,6 +269,8 @@ export const sendEnquiry = (listingId, message) => (dispatch, getState, sdk) => 
     });
 };
 
+export const fetchYoutubeVideos = youtubeURL => dispatch => {};
+
 export const loadData = (params, search) => dispatch => {
   const listingId = new UUID(params.id);
 
