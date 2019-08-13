@@ -11,7 +11,7 @@ import {
   LISTING_PAGE_PENDING_APPROVAL_VARIANT,
 } from '../../util/urlHelpers';
 import { fetchCurrentUser, fetchCurrentUserHasOrdersSuccess } from '../../ducks/user.duck';
-import fetchFromYoutube from "../../util/youtubeAPILoader";
+import fetchFromYoutube from '../../util/youtubeAPILoader';
 
 const { UUID } = sdkTypes;
 
@@ -311,80 +311,81 @@ export const fetchYoutubeVideos = youtubeURL => dispatch => {
     [filters[type]]: id,
     fields: 'pageInfo,items(id,contentDetails/relatedPlaylists/uploads)',
   })
-    .then(({ result }) => {
-      if (result.pageInfo.totalResults === 0) {
+    .then(({ data }) => {
+      console.log('success, data:', data);
+      if (data.pageInfo.totalResults === 0) {
         // not a valid channel
         // create an error object like that returned by the SDK
         const err = { name: 'no-youtube-channel', message: 'no matching Youtube channel found' };
         throw err;
       } else {
         // get ID of 'uploads' playlist for the channel
-        const playlistId = result.items[0].contentDetails.relatedPlaylists.uploads;
+        const playlistId = data.items[0].contentDetails.relatedPlaylists.uploads;
 
         return fetchFromYoutube('playlistItems', {
           part: 'contentDetails',
           maxResults: 20,
           playlistId,
           fields: 'pageInfo,items(id,contentDetails/videoId)',
-        })
-          .then(({ result }) => {
-            if (result.pageInfo.totalResults === 0) {
-              // no uploaded videos to display
-              // create an error object like that returned by the SDK
-              const err = {
-                name: 'no-uploaded-videos',
-                message: 'no uploaded videos on this Youtube channel',
-              };
-              throw err;
-            } else {
-              // fetch each video's information
-              const videoInfoPromises = result.items.map(({ contentDetails: { videoId } }) => {
-                return fetchFromYoutube('videos', {
-                  part: 'snippet,contentDetails,statistics',
-                  id: videoId,
-                  fields:
-                    'pageInfo,items(snippet(publishedAt,title,thumbnails/medium/url),contentDetails/duration,statistics/viewCount)',
-                });
+        }).then(({ data }) => {
+          if (data.pageInfo.totalResults === 0) {
+            // no uploaded videos to display
+            // create an error object like that returned by the SDK
+            const err = {
+              name: 'no-uploaded-videos',
+              message: 'no uploaded videos on this Youtube channel',
+            };
+            throw err;
+          } else {
+            // fetch each video's information
+            const videoInfoPromises = data.items.map(({ contentDetails: { videoId } }) => {
+              return fetchFromYoutube('videos', {
+                part: 'snippet,contentDetails,statistics',
+                id: videoId,
+                fields:
+                  'pageInfo,items(snippet(publishedAt,title,thumbnails/medium/url),contentDetails/duration,statistics/viewCount)',
               });
+            });
 
-              return Promise.all(videoInfoPromises)
-                .then(videos => {
-                  // get the 5 most viewed
-                  const top5 = videos
-                    .sort((firstVid, secondVid) => {
-                      // each array member is a search result
-                      // so it has a `result` object which is a Video resource with shape according to Youtube's API
-                      const {
-                        result: { items: items1 },
-                      } = firstVid;
-                      const {
-                        result: { items: items2 },
-                      } = secondVid;
-                      return items2[0].statistics.viewCount - items1[0].statistics.viewCount;
-                    })
-                    .slice(0, 5);
+            return Promise.all(videoInfoPromises)
+              .then(videos => {
+                // get the 5 most viewed
+                const top5 = videos
+                  .sort((firstVid, secondVid) => {
+                    // each array member is a search result
+                    // so it has a `result` object which is a Video resource with shape according to Youtube's API
+                    const {
+                      data: { items: items1 },
+                    } = firstVid;
+                    const {
+                      data: { items: items2 },
+                    } = secondVid;
+                    return items2[0].statistics.viewCount - items1[0].statistics.viewCount;
+                  })
+                  .slice(0, 5);
 
-                  // add them to redux store
-                  return dispatch(fetchYoutubeVideosSuccess(top5));
-                })
-                .catch(err => {
-                  // one or more videos failed to load
-                  // create an error object like that returned by the SDK
-                  const { name, message, ...rest } = err;
-                  const errToThrow = {
-                    name: name || 'videos-failed-to-load',
-                    message: message || 'one or more videos failed to load',
-                    ...rest,
-                  };
-                  
-                  // throw it so it's caught by the outer .catch() block
-                  throw errToThrow;
-                });
-            }
-          });
+                // add them to redux store
+                return dispatch(fetchYoutubeVideosSuccess(top5));
+              })
+              .catch(err => {
+                // one or more videos failed to load
+                // create an error object like that returned by the SDK
+                const { name, message, ...rest } = err;
+                const errToThrow = {
+                  name: name || 'videos-failed-to-load',
+                  message: message || 'one or more videos failed to load',
+                  ...rest,
+                };
+
+                // throw it so it's caught by the outer .catch() block
+                throw errToThrow;
+              });
+          }
+        });
       }
     })
     .catch(e => {
+      console.log('failure, e:', e);
       dispatch(fetchYoutubeVideosError(storableError(e)));
     });
 };
