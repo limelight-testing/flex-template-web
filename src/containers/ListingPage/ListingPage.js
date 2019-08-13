@@ -83,10 +83,34 @@ export class ListingPageComponent extends Component {
       imageCarouselOpen: false,
       enquiryModalOpen: enquiryModalOpenForListingId === params.id,
     };
+    this.youtubeAPILoaded = false;
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onContactUser = this.onContactUser.bind(this);
     this.onSubmitEnquiry = this.onSubmitEnquiry.bind(this);
+    this.startTimer = this.startTimer.bind(this);
+  }
+
+  componentDidMount() {
+    this.startTimer();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
+  startTimer() {
+    // every 0.5s check if Youtube API has been loaded and stop timer if it has
+    this.timer = setInterval(() => {
+      const youtubeAPILoaded =
+        /* eslint-disable-next-line no-undef */
+        typeof window !== 'undefined' && gapi && gapi.client && gapi.client.youtube;
+      console.log('youtubeAPILoaded:', youtubeAPILoaded);
+      if (youtubeAPILoaded) {
+        this.youtubeAPILoaded = true;
+        clearInterval(this.timer);
+      }
+    }, 500);
   }
 
   handleSubmit(values) {
