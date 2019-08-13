@@ -555,7 +555,7 @@ ListingPageComponent.propTypes = {
   sendEnquiryInProgress: bool.isRequired,
   sendEnquiryError: propTypes.error,
   onSendEnquiry: func.isRequired,
-  youtubeVideos: array.isRequired,
+  youtubeVideos: array,
   fetchYoutubeVideosInProgress: bool.isRequired,
   fetchYoutubeVideosError: propTypes.error,
   onFetchYoutubeVideos: func.isRequired,
