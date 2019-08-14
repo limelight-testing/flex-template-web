@@ -237,3 +237,32 @@ export const getExclusiveEndDate = dateString => {
     .startOf('day')
     .toDate();
 };
+
+//////////////////////////////////
+// UCHE'S CUSTOM DATE FUNCTIONS //
+//////////////////////////////////
+
+/**
+ * Convert an ISO 8601 string to an object with relevant date keys.
+ * Gotten from Stack Overflow.
+ * https://stackoverflow.com/a/29153059/7987987
+ *
+ * @param {String} iso8601Duration duration string in ISO 8601 format
+ *
+ * @returns {Object} an object with relevant date keys
+ */
+export const parseISO8601Duration = iso8601Duration => {
+  const iso8601DurationRegex = /(-)?P(?:([.,\d]+)Y)?(?:([.,\d]+)M)?(?:([.,\d]+)W)?(?:([.,\d]+)D)?(?:T(?:([.,\d]+)H)?(?:([.,\d]+)M)?(?:([.,\d]+)S)?)?/;
+  const matches = iso8601Duration.match(iso8601DurationRegex);
+
+  return {
+    sign: matches[1] === undefined ? '+' : '-',
+    years: matches[2] === undefined ? 0 : matches[2],
+    months: matches[3] === undefined ? 0 : matches[3],
+    weeks: matches[4] === undefined ? 0 : matches[4],
+    days: matches[5] === undefined ? 0 : matches[5],
+    hours: matches[6] === undefined ? 0 : matches[6],
+    minutes: matches[7] === undefined ? 0 : matches[7],
+    seconds: matches[8] === undefined ? 0 : matches[8],
+  };
+};

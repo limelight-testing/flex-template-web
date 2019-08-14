@@ -75,7 +75,7 @@ export const LandingPageComponent = props => {
           </ul>
         </LayoutWrapperMain>
         <LayoutWrapperFooter>
-          <Footer siteTitle={siteTitle} />
+          <Footer />
         </LayoutWrapperFooter>
       </LayoutSingleColumn>
     </Page>

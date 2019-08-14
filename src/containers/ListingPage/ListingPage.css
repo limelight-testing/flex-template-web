@@ -411,6 +411,91 @@
   }
 }
 
+.sectionVideos {
+  padding: 0 24px;
+  margin-bottom: 35px;
+
+  @media (--viewportMedium) {
+    padding: 0;
+    margin-bottom: 52px;
+  }
+}
+
+.videosTitle {
+  /* Font */
+  @apply --marketplaceH3FontStyles;
+  color: var(--matterColorAnti);
+
+  margin-top: 0;
+  margin-bottom: 13px;
+  @media (--viewportMedium) {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+}
+
+.videosContainer {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  @media (--viewportMedium) {
+    /* 48px is the total horizontal padding at this viewport width */
+    /* So it needs to be subtracted from the full viewport width in */
+    /* order to get the correct width of the horizontal scroll container */
+    width: calc(100vw - 48px);
+  }
+
+  @media (--viewportLarge) {
+    /* 528px is the total width of the .bookingPanel (see above) */
+    /* So it needs to be subtracted from the full viewport width in */
+    /* order to get the correct width of the horizontal scroll container */
+    width: calc(100vw - 528px);
+  }
+}
+
+.videoCard {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  margin-right: 1.5em;
+  width: 210px;
+}
+
+.thumbnailContainer {
+  height: 210px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  background-position: center;
+}
+
+.videoDuration {
+  background-color: gray;
+  color: white;
+  padding: 0.25em;
+  margin: 0 0.5em 1.5em 0;
+  font-size: 0.8em;
+}
+
+.videoTitle {
+  font-weight: bold;
+  color: black;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  line-height: 18px;
+}
+
+.viewsPublishedAgoRow {
+  display: flex;
+  justify-content: space-between;
+
+  & span {
+    font-size: 0.7em;
+  }
+}
+
 .sectionFeatures {
   padding: 0 24px;
   margin-bottom: 32px;
