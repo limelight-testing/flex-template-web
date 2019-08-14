@@ -454,6 +454,7 @@ export class ListingPageComponent extends Component {
                     onContactUser={this.onContactUser}
                   />
                   <SectionVideosMaybe
+                    youtube={publicData && publicData.youtube}
                     videos={youtubeVideos}
                     fetchVideosError={fetchYoutubeVideosError}
                     fetchVideosInProgress={fetchYoutubeVideosInProgress}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
-import { array, bool } from 'prop-types';
+import { array, bool, string } from 'prop-types';
 import { ExternalLink } from '../../components';
 import { parseISO8601Duration } from '../../util/dates';
 import { propTypes } from '../../util/types';
@@ -92,7 +92,7 @@ const VideoCard = ({ video }) => {
   );
 };
 
-const SectionVideosMaybe = ({ videos, fetchVideosError, fetchVideosInProgress }) => (
+const SectionVideosMaybe = ({ videos, fetchVideosError, fetchVideosInProgress, youtube }) => (
   <div className={css.sectionVideos}>
     <h2 className={css.videosTitle}>
       <FormattedMessage id="ListingPage.videosTitle" />
@@ -109,6 +109,9 @@ const SectionVideosMaybe = ({ videos, fetchVideosError, fetchVideosInProgress })
           {videos.map((video, idx) => (
             <VideoCard key={idx} video={video} />
           ))}
+          <div className={css.viewMore}>
+            <ExternalLink href={youtube}>View More</ExternalLink>
+          </div>
         </div>
       )}
     </div>
@@ -119,6 +122,7 @@ SectionVideosMaybe.propTypes = {
   videos: array,
   fetchVideosError: propTypes.error,
   fetchVideosInProgress: bool,
+  youtube: string,
 };
 
 export default SectionVideosMaybe;
