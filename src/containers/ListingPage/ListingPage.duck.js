@@ -300,7 +300,7 @@ export const sendEnquiry = (listingId, message) => (dispatch, getState, sdk) => 
     });
 };
 
-export const fetchYoutubeVideos = youtubeURL => dispatch => {
+export const fetchYoutubeVideos = youtubeURL => (dispatch, getState) => {
   dispatch(fetchYoutubeVideosRequest());
 
   const urlRgx = /^https:\/\/www\.youtube\.com\/(channel|user)\/(.*)$/;
@@ -369,8 +369,31 @@ export const fetchYoutubeVideos = youtubeURL => dispatch => {
                   .slice(0, 5)
                   .map(getVideoData);
 
-                // add them to redux store
-                return dispatch(fetchYoutubeVideosSuccess(top5));
+                // get the current listing being shown
+                const {
+                  ListingPage,
+                  marketplaceData: { entities },
+                } = getState();
+                const listingId = ListingPage && ListingPage.id && ListingPage.id.uuid;
+                if (!listingId) {
+                  // using an empty array removes any other listing's videos
+                  return dispatch(fetchYoutubeVideosSuccess([]));
+                }
+
+                // check if its data is in the store
+                const listingData = entities && entities.listing && entities.listing[listingId];
+                if (!listingData) return dispatch(fetchYoutubeVideosSuccess([]));
+
+                // check if its youtube url matches the value supplied to this function
+                const listingYoutubeURL =
+                  listingData.attributes &&
+                  listingData.attributes.publicData &&
+                  listingData.attributes.publicData.youtube;
+                if (youtubeURL === listingYoutubeURL) {
+                  return dispatch(fetchYoutubeVideosSuccess(top5));
+                } else {
+                  return dispatch(fetchYoutubeVideosSuccess([]));
+                }
               })
               .catch(err => {
                 // one or more videos failed to load
