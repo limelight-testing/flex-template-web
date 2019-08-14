@@ -440,6 +440,13 @@
   overflow-x: auto;
   overflow-y: hidden;
 
+  @media (--viewportMedium) {
+    /* 48px is the total horizontal padding at this viewport width */
+    /* So it needs to be subtracted from the full viewport width in */
+    /* order to get the correct width of the horizontal scroll container */
+    width: calc(100vw - 48px);
+  }
+
   @media (--viewportLarge) {
     /* 528px is the total width of the .bookingPanel (see above) */
     /* So it needs to be subtracted from the full viewport width in */
@@ -453,11 +460,11 @@
   flex: 0 0 auto;
   flex-direction: column;
   margin-right: 1.5em;
-  width: 200px;
+  width: 210px;
 }
 
 .thumbnailContainer {
-  height: 200px;
+  height: 210px;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
@@ -468,7 +475,7 @@
   background-color: gray;
   color: white;
   padding: 0.25em;
-  margin: 0 0.5em 1em 0;
+  margin: 0 0.5em 1.5em 0;
   font-size: 0.8em;
 }
 

@@ -37,6 +37,9 @@ const VideoCard = ({ video }) => {
     duration = `${hoursAsString}:${duration}`;
   }
 
+  const title =
+    video.snippet.title.length > 25 ? `${video.snippet.title.slice(0, 25)}…` : video.snippet.title;
+
   // Adapted from a Stack Overflow answer
   // see https://stackoverflow.com/a/14919494/7987987
   const getCountSuffix = count => {
@@ -71,7 +74,7 @@ const VideoCard = ({ video }) => {
       >
         <span className={css.videoDuration}>{duration}</span>
       </ExternalLink>
-      <h5 className={css.videoTitle}>{video.snippet.title}</h5>
+      <h5 className={css.videoTitle}>{title}</h5>
       <div className={css.viewsPublishedAgoRow}>
         <span>{viewCount} Views</span>
         <span>{publishedAgo}</span>
