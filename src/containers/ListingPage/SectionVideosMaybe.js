@@ -110,7 +110,9 @@ const SectionVideosMaybe = ({ videos, fetchVideosError, fetchVideosInProgress, y
             <VideoCard key={idx} video={video} />
           ))}
           <div className={css.viewMore}>
-            <ExternalLink href={youtube}>View More</ExternalLink>
+            <ExternalLink className={css.viewMoreLink} href={youtube}>
+              More…
+            </ExternalLink>
           </div>
         </div>
       )}

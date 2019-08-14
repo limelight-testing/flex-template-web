@@ -525,7 +525,17 @@
 
 .viewMore {
   @apply --horizontallySlidingCardStyles;
+  justify-content: center;
   font-size: 0.9em;
+  height: 200px;
+}
+
+.viewMoreLink {
+  background: #f1f1f1;
+  line-height: 4em;
+  padding: 0 0.5em;
+  border-radius: 0.5em;
+  text-align: center;
 }
 
 .sectionFeatures {
