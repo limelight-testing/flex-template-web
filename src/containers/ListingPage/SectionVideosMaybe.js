@@ -1,8 +1,10 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
+import { array, bool } from 'prop-types';
 import { ExternalLink } from '../../components';
 import { parseISO8601Duration } from '../../util/dates';
+import { propTypes } from '../../util/types';
 
 import css from './ListingPage.css';
 
@@ -112,5 +114,11 @@ const SectionVideosMaybe = ({ videos, fetchVideosError, fetchVideosInProgress })
     </div>
   </div>
 );
+
+SectionVideosMaybe.propTypes = {
+  videos: array,
+  fetchVideosError: propTypes.error,
+  fetchVideosInProgress: bool,
+};
 
 export default SectionVideosMaybe;
