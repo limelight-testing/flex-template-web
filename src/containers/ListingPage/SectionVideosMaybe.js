@@ -98,11 +98,11 @@ const SectionVideosMaybe = ({ videos, fetchVideosError, fetchVideosInProgress, y
       <FormattedMessage id="ListingPage.videosTitle" />
     </h2>
     <div>
-      {!videos || fetchVideosInProgress ? (
+      {fetchVideosInProgress ? (
         <FormattedMessage id="ListingPage.videosLoading" />
       ) : !!fetchVideosError ? (
         <FormattedMessage id="ListingPage.videosFailedToLoad" />
-      ) : videos.length === 0 ? (
+      ) : !videos || videos.length === 0 ? (
         <FormattedMessage id="ListingPage.videosEmpty" />
       ) : (
         <div className={css.videosContainer}>
