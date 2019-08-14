@@ -239,8 +239,8 @@ export const validYoutubeChannel = (notAChannelMessage, networkErrorMessage) => 
 
   // need to query Youtube API to verify that the URL is correct
   return fetchFromYoutube('channels', { part: 'id', [filters[type]]: id })
-    .then(({ result }) => {
-      if (result.pageInfo.totalResults === 0) {
+    .then(({ data }) => {
+      if (data.pageInfo.totalResults === 0) {
         return notAChannelMessage;
       } else {
         return VALID;
