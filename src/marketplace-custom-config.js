@@ -68,6 +68,15 @@ export const categories = [
   { key: 'bassist', label: 'Bassist' },
   { key: 'eventproducer', label: 'Event Producer' },
   { key: 'stagehand', label: 'Stage Hand' },
+  { key: 'productioncrew', label: 'Production Crew' },
+  { key: 'videography', label: 'Videography' },
+  { key: 'musicproduction', label: 'Music Production' },
+  { key: 'dj', label: 'DJ' },
+  { key: 'musicpromotion', label: 'Music Promotion' },
+  { key: 'instrumentalist', label: 'Instrumentalist' },
+  { key: 'songwriter', label: 'Songwriter' },
+  { key: 'graphicdesign', label: 'Graphic Design' },
+  { key: 'venue', label: 'Venue' },
 ];
 
 // Price filter configuration
