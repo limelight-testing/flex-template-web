@@ -66,16 +66,22 @@ const VideoCard = ({ video }) => {
   const viewCount = getCountSuffix(video.statistics.viewCount);
   const publishedAgo = moment(video.snippet.publishedAt).fromNow();
 
+  const videoUrl = `https://www.youtube.com/watch?v=${video.id}`;
+
   return (
     <div className={css.videoCard}>
       <ExternalLink
-        href={`https://www.youtube.com/watch?v=${video.id}`}
+        href={videoUrl}
         className={css.thumbnailContainer}
         style={{ backgroundImage: `url(${video.snippet.thumbnails.medium.url})` }}
       >
         <span className={css.videoDuration}>{duration}</span>
       </ExternalLink>
-      <h5 className={css.videoTitle}>{title}</h5>
+      <h5 className={css.videoTitle}>
+        <ExternalLink href={videoUrl} className={css.titleLink}>
+          {title}
+        </ExternalLink>
+      </h5>
       <div className={css.viewsPublishedAgoRow}>
         <span>{viewCount} Views</span>
         <span>{publishedAgo}</span>
