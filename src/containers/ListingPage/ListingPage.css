@@ -438,13 +438,32 @@
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
+
+  @media (--viewportLarge) {
+    /* 528px is the total width of the .bookingPanel (see above) */
+    /* So it needs to be subtracted from the full viewport width in */
+    /* order to get the correct width of the horizontal scroll container */
+    width: calc(100vw - 528px);
+  }
 }
 
 .videoCard {
-  display: block;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
   flex: 0 0 auto;
+  width: 200px;
   height: 200px;
   margin-right: 1.5em;
+  background-position: center;
+}
+
+.videoDuration {
+  background-color: gray;
+  color: white;
+  padding: 0.25em;
+  margin: 0 0.5em 1em 0;
+  font-size: 0.8em;
 }
 
 .sectionFeatures {
