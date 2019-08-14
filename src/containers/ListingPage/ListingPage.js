@@ -40,7 +40,13 @@ import {
 } from '../../components';
 import { TopbarContainer, NotFoundPage } from '../../containers';
 
-import { sendEnquiry, loadData, setInitialValues, fetchYoutubeVideos } from './ListingPage.duck';
+import {
+  sendEnquiry,
+  loadData,
+  setInitialValues,
+  fetchYoutubeVideos,
+  fetchYoutubeVideosSuccess,
+} from './ListingPage.duck';
 import SectionImages from './SectionImages';
 import SectionAvatar from './SectionAvatar';
 import SectionHeading from './SectionHeading';
@@ -102,7 +108,13 @@ export class ListingPageComponent extends Component {
   startTimer() {
     // every 0.5s check if listing data has been loaded and stop timer if it has
     this.timer = setInterval(() => {
-      const { getListing, getOwnListing, onFetchYoutubeVideos, params: rawParams } = this.props;
+      const {
+        getListing,
+        getOwnListing,
+        onFetchYoutubeVideos,
+        onFetchYoutubeVideosSuccess,
+        params: rawParams,
+      } = this.props;
 
       const listingId = new UUID(rawParams.id);
       const isPendingApprovalVariant = rawParams.variant === LISTING_PAGE_PENDING_APPROVAL_VARIANT;
@@ -112,14 +124,19 @@ export class ListingPageComponent extends Component {
           ? ensureOwnListing(getOwnListing(listingId))
           : ensureListing(getListing(listingId));
 
-      const canFetchYoutubeVideos =
-        currentListing &&
-        currentListing.attributes &&
-        currentListing.attributes.publicData &&
-        currentListing.attributes.publicData.youtube;
-      if (canFetchYoutubeVideos) {
+      const canCheckForYoutubeVideos =
+        currentListing && currentListing.attributes && currentListing.attributes.publicData;
+      if (canCheckForYoutubeVideos) {
         clearInterval(this.timer);
-        onFetchYoutubeVideos(currentListing.attributes.publicData.youtube);
+
+        // check if listing has youtube URL
+        if (currentListing.attributes.publicData.youtube) {
+          // initiate fetching videos
+          onFetchYoutubeVideos(currentListing.attributes.publicData.youtube);
+        } else {
+          // remove any videos currently in the store
+          onFetchYoutubeVideosSuccess([]);
+        }
       }
     }, 500);
   }
@@ -620,6 +637,7 @@ const mapDispatchToProps = dispatch => ({
   callSetInitialValues: (setInitialValues, values) => dispatch(setInitialValues(values)),
   onSendEnquiry: (listingId, message) => dispatch(sendEnquiry(listingId, message)),
   onFetchYoutubeVideos: youtubeURL => dispatch(fetchYoutubeVideos(youtubeURL)),
+  onFetchYoutubeVideosSuccess: videosArray => dispatch(fetchYoutubeVideosSuccess(videosArray)),
 });
 
 // Note: it is important that the withRouter HOC is **outside** the
