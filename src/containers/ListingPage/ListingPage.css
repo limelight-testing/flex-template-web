@@ -421,7 +421,7 @@
   }
 }
 
-.videoTitle {
+.videosTitle {
   /* Font */
   @apply --marketplaceH3FontStyles;
   color: var(--matterColorAnti);
@@ -438,6 +438,7 @@
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
+  overflow-y: hidden;
 
   @media (--viewportLarge) {
     /* 528px is the total width of the .bookingPanel (see above) */
@@ -449,12 +450,17 @@
 
 .videoCard {
   display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  margin-right: 1.5em;
+  width: 200px;
+}
+
+.thumbnailContainer {
+  height: 200px;
+  display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  flex: 0 0 auto;
-  width: 200px;
-  height: 200px;
-  margin-right: 1.5em;
   background-position: center;
 }
 
@@ -464,6 +470,23 @@
   padding: 0.25em;
   margin: 0 0.5em 1em 0;
   font-size: 0.8em;
+}
+
+.videoTitle {
+  font-weight: bold;
+  color: black;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  line-height: 18px;
+}
+
+.viewsPublishedAgoRow {
+  display: flex;
+  justify-content: space-between;
+
+  & span {
+    font-size: 0.7em;
+  }
 }
 
 .sectionFeatures {

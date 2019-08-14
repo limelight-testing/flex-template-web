@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import moment from 'moment';
 import { ExternalLink } from '../../components';
 import { parseISO8601Duration } from '../../util/dates';
 
@@ -36,20 +37,52 @@ const VideoCard = ({ video }) => {
     duration = `${hoursAsString}:${duration}`;
   }
 
+  // Adapted from a Stack Overflow answer
+  // see https://stackoverflow.com/a/14919494/7987987
+  const getCountSuffix = count => {
+    const thresh = 1000;
+
+    if (count < thresh) {
+      return count;
+    }
+
+    const units = ['K', 'M', 'B'];
+    let u = -1;
+
+    do {
+      count /= thresh;
+      ++u;
+    } while (count >= thresh && u < units.length - 1);
+
+    return count.toFixed(1) + ' ' + units[u];
+  };
+
+  // TODO: use react-intl to generate correct message form for
+  // view count and published
+  const viewCount = getCountSuffix(video.statistics.viewCount);
+  const publishedAgo = moment(video.snippet.publishedAt).fromNow();
+
   return (
-    <ExternalLink
-      href={`https://www.youtube.com/watch?v=${video.id}`}
-      className={css.videoCard}
-      style={{ backgroundImage: `url(${video.snippet.thumbnails.medium.url})` }}
-    >
-      <span className={css.videoDuration}>{duration}</span>
-    </ExternalLink>
+    <div className={css.videoCard}>
+      <ExternalLink
+        href={`https://www.youtube.com/watch?v=${video.id}`}
+        className={css.thumbnailContainer}
+        style={{ backgroundImage: `url(${video.snippet.thumbnails.medium.url})` }}
+      >
+        <span className={css.videoDuration}>{duration}</span>
+      </ExternalLink>
+      <h5 className={css.videoTitle}>{video.snippet.title}</h5>
+      <div className={css.viewsPublishedAgoRow}>
+        <span>{viewCount} Views</span>
+        <span>{publishedAgo}</span>
+      </div>
+    </div>
   );
 };
 
 const SectionVideosMaybe = ({ videos, fetchVideosError, fetchVideosInProgress }) => (
   <div className={css.sectionVideos}>
-    <h2 className={css.videoTitle}>
+    <h2 className={css.videosTitle}>
       <FormattedMessage id="ListingPage.videosTitle" />
     </h2>
     <div>
