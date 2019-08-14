@@ -439,6 +439,7 @@
   flex-wrap: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
 
   @media (--viewportMedium) {
     /* 48px is the total horizontal padding at this viewport width */
