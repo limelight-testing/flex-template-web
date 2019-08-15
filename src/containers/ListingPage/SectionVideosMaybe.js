@@ -1,8 +1,10 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
+import { array, bool, string } from 'prop-types';
 import { ExternalLink } from '../../components';
 import { parseISO8601Duration } from '../../util/dates';
+import { propTypes } from '../../util/types';
 
 import css from './ListingPage.css';
 
@@ -66,16 +68,22 @@ const VideoCard = ({ video }) => {
   const viewCount = getCountSuffix(video.statistics.viewCount);
   const publishedAgo = moment(video.snippet.publishedAt).fromNow();
 
+  const videoUrl = `https://www.youtube.com/watch?v=${video.id}`;
+
   return (
     <div className={css.videoCard}>
       <ExternalLink
-        href={`https://www.youtube.com/watch?v=${video.id}`}
+        href={videoUrl}
         className={css.thumbnailContainer}
         style={{ backgroundImage: `url(${video.snippet.thumbnails.medium.url})` }}
       >
         <span className={css.videoDuration}>{duration}</span>
       </ExternalLink>
-      <h5 className={css.videoTitle}>{title}</h5>
+      <h5 className={css.videoTitle}>
+        <ExternalLink href={videoUrl} className={css.titleLink}>
+          {title}
+        </ExternalLink>
+      </h5>
       <div className={css.viewsPublishedAgoRow}>
         <span>{viewCount} Views</span>
         <span>{publishedAgo}</span>
@@ -84,27 +92,39 @@ const VideoCard = ({ video }) => {
   );
 };
 
-const SectionVideosMaybe = ({ videos, fetchVideosError, fetchVideosInProgress }) => (
+const SectionVideosMaybe = ({ videos, fetchVideosError, fetchVideosInProgress, youtube }) => (
   <div className={css.sectionVideos}>
     <h2 className={css.videosTitle}>
       <FormattedMessage id="ListingPage.videosTitle" />
     </h2>
     <div>
-      {!videos || fetchVideosInProgress ? (
+      {fetchVideosInProgress ? (
         <FormattedMessage id="ListingPage.videosLoading" />
       ) : !!fetchVideosError ? (
         <FormattedMessage id="ListingPage.videosFailedToLoad" />
-      ) : videos.length === 0 ? (
+      ) : !videos || videos.length === 0 ? (
         <FormattedMessage id="ListingPage.videosEmpty" />
       ) : (
         <div className={css.videosContainer}>
           {videos.map((video, idx) => (
             <VideoCard key={idx} video={video} />
           ))}
+          <div className={css.viewMore}>
+            <ExternalLink className={css.viewMoreLink} href={youtube}>
+              More…
+            </ExternalLink>
+          </div>
         </div>
       )}
     </div>
   </div>
 );
+
+SectionVideosMaybe.propTypes = {
+  videos: array,
+  fetchVideosError: propTypes.error,
+  fetchVideosInProgress: bool,
+  youtube: string,
+};
 
 export default SectionVideosMaybe;

@@ -1,5 +1,14 @@
 @import '../../marketplace.css';
 
+:root {
+  --horizontallySlidingCardStyles: {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    margin-right: 1.5em;
+  }
+}
+
 .root {
 }
 
@@ -439,32 +448,47 @@
   flex-wrap: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
 
   @media (--viewportMedium) {
-    /* 48px is the total horizontal padding at this viewport width */
-    /* So it needs to be subtracted from the full viewport width in */
+    /* 48px is the total horizontal padding of */
+    /* .contentContainer (see above) at this viewport width */
+    /* So that needs to be subtracted from the full viewport width in */
     /* order to get the correct width of the horizontal scroll container */
     width: calc(100vw - 48px);
   }
 
   @media (--viewportLarge) {
-    /* 528px is the total width of the .bookingPanel (see above) */
+    /* 72px is the total horizontal padding of .contentContainer at this viewport width */
     /* So it needs to be subtracted from the full viewport width in */
     /* order to get the correct width of the horizontal scroll container */
-    width: calc(100vw - 528px);
+    /* At the same time, .bookingPanel is now present */
+    /* It's total fixed width is 433px and that must be subtracted too */
+    width: calc(100vw - 433px - 72px);
   }
+
+  @media (--viewportLargeWithPaddings) {
+    /* .contentContainer now has a max-width of 1128px, but it's total margin */
+    /* is still 72px, and this is included in the max-width */
+    /* therefore, the area occupied by the content (without the padding) comes */
+    /* out to 1128px - 72px = 1056px */
+    /* so we only need to subtract the total width of .bookingPanel from this */
+    /* value */
+    width: calc(1128px - 433px);
+  }
+
+  /* Note that at 1921px, .contentContainer removes its 72px horizontal padding and */
+  /* sets its max-width to 1056px, doesn't change the width of the inner content */
+  /* so we don't need to account for that change */
 }
 
 .videoCard {
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  margin-right: 1.5em;
+  @apply --horizontallySlidingCardStyles;
   width: 210px;
 }
 
 .thumbnailContainer {
-  height: 210px;
+  height: 200px;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
@@ -475,16 +499,19 @@
   background-color: gray;
   color: white;
   padding: 0.25em;
-  margin: 0 0.5em 1.5em 0;
+  margin: 0 0.5em 1.2em 0;
   font-size: 0.8em;
 }
 
 .videoTitle {
   font-weight: bold;
-  color: black;
   text-transform: capitalize;
   letter-spacing: 0.5px;
   line-height: 18px;
+}
+
+.titleLink {
+  color: black;
 }
 
 .viewsPublishedAgoRow {
@@ -494,6 +521,21 @@
   & span {
     font-size: 0.7em;
   }
+}
+
+.viewMore {
+  @apply --horizontallySlidingCardStyles;
+  justify-content: center;
+  font-size: 0.9em;
+  height: 200px;
+}
+
+.viewMoreLink {
+  background: #f1f1f1;
+  line-height: 4em;
+  padding: 0 0.5em;
+  border-radius: 0.5em;
+  text-align: center;
 }
 
 .sectionFeatures {
