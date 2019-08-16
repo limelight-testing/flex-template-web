@@ -227,9 +227,6 @@ export const validHKID = message => value => {
 
 // TODO: test this validator
 export const validYoutubeChannel = (notAChannelMessage, networkErrorMessage) => value => {
-  // remove leading and trailing whitespace
-  value = value.trim();
-
   // this field is not required
   if (!value || value.length === 0) return VALID;
 
