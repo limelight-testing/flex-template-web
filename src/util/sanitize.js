@@ -1,3 +1,5 @@
+import { YOUTUBE_URL_RGX } from './urlHelpers';
+
 /**
  * By default, React DOM escapes any values embedded in JSX before rendering them,
  * but sometimes it is necessary to sanitize the user-generated content of received entities.
@@ -24,6 +26,8 @@ const sanitizeText = str =>
     ? str.replace(ESCAPE_TEXT_REGEXP, ch => ESCAPE_TEXT_REPLACEMENTS[ch])
     : '';
 
+const sanitizeYoutube = url => (new RegExp(YOUTUBE_URL_RGX).test(url) ? url : undefined);
+
 /**
  * Sanitize user entity.
  * If you add public data, you should probably sanitize it here.
@@ -38,7 +42,10 @@ export const sanitizeUser = entity => {
 
   const sanitizePublicData = publicData => {
     // TODO: If you add public data, you should probably sanitize it here.
-    return publicData ? { publicData } : {};
+    const { youtube, ...restPublicData } = publicData || {};
+    const youtubeMaybe = youtube ? { youtube: sanitizeYoutube(youtube) } : {};
+
+    return publicData ? { publicData: { ...youtubeMaybe, ...restPublicData } } : {};
   };
 
   const profileMaybe = profile
@@ -75,11 +82,14 @@ export const sanitizeListing = entity => {
   const sanitizePublicData = publicData => {
     // Here's an example how you could sanitize location and rules from publicData:
     // TODO: If you add public data, you should probably sanitize it here.
-    const { location, rules, ...restPublicData } = publicData || {};
+    const { location, rules, youtube, ...restPublicData } = publicData || {};
     const locationMaybe = location ? { location: sanitizeLocation(location) } : {};
     const rulesMaybe = rules ? { rules: sanitizeText(rules) } : {};
+    const youtubeMaybe = youtube ? { youtube: sanitizeYoutube(youtube) } : {};
 
-    return publicData ? { publicData: { ...locationMaybe, ...rulesMaybe, ...restPublicData } } : {};
+    return publicData
+      ? { publicData: { ...locationMaybe, ...rulesMaybe, ...youtubeMaybe, ...restPublicData } }
+      : {};
   };
 
   const attributesMaybe = attributes
