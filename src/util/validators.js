@@ -2,6 +2,7 @@ import moment from 'moment';
 import { types as sdkTypes } from './sdkLoader';
 import toPairs from 'lodash/toPairs';
 import fetchFromYoutube from './youtubeAPILoader';
+import { YOUTUBE_URL_RGX } from './urlHelpers';
 
 const { LatLng, Money } = sdkTypes;
 
@@ -226,11 +227,13 @@ export const validHKID = message => value => {
 
 // TODO: test this validator
 export const validYoutubeChannel = (notAChannelMessage, networkErrorMessage) => value => {
+  // remove leading and trailing whitespace
+  value = value.trim();
+
   // this field is not required
   if (!value || value.length === 0) return VALID;
 
-  const urlRgx = /^https:\/\/www\.youtube\.com\/(channel|user)\/(.*)$/;
-  const matches = value.match(urlRgx);
+  const matches = value.match(YOUTUBE_URL_RGX);
 
   if (!matches) return notAChannelMessage;
 

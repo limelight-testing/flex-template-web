@@ -15,6 +15,8 @@ export const LISTING_PAGE_PARAM_TYPES = [
   LISTING_PAGE_PARAM_TYPE_EDIT,
 ];
 
+export const YOUTUBE_URL_RGX = /^https:\/\/www\.youtube\.com\/(channel|user)\/([a-zA-Z0-9_-]+)$/;
+
 // Create slug from random texts
 // From Gist thread: https://gist.github.com/mathewbyrne/1280286
 export const createSlug = str => {
