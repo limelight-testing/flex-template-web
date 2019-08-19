@@ -26,7 +26,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-// const enforceSsl = require('express-enforces-ssl');
+const enforceSsl = require('express-enforces-ssl');
 const path = require('path');
 const sharetribeSdk = require('sharetribe-flex-sdk');
 const Decimal = require('decimal.js');
@@ -93,14 +93,9 @@ if (cspEnabled) {
 //
 // Read more: https://github.com/aredo/express-enforces-ssl
 //
-// if (USING_SSL) {
-//   app.use(enforceSsl());
-// }
-app.use((req, res) => {
-  if (req.protocol === 'http') {
-    res.redirect(301, `https://${req.headers.host}${req.url}`);
-  }
-});
+if (USING_SSL) {
+  app.use(enforceSsl());
+}
 
 // Set the TRUST_PROXY when running the app behind a reverse proxy.
 //
