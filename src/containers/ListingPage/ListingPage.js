@@ -94,51 +94,12 @@ export class ListingPageComponent extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onContactUser = this.onContactUser.bind(this);
     this.onSubmitEnquiry = this.onSubmitEnquiry.bind(this);
-    this.startTimer = this.startTimer.bind(this);
   }
 
   componentDidMount() {
-    this.startTimer();
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timer);
-  }
-
-  startTimer() {
-    // every 0.5s check if listing data has been loaded and stop timer if it has
-    this.timer = setInterval(() => {
-      const {
-        getListing,
-        getOwnListing,
-        onFetchYoutubeVideos,
-        onFetchYoutubeVideosSuccess,
-        params: rawParams,
-      } = this.props;
-
-      const listingId = new UUID(rawParams.id);
-      const isPendingApprovalVariant = rawParams.variant === LISTING_PAGE_PENDING_APPROVAL_VARIANT;
-      const isDraftVariant = rawParams.variant === LISTING_PAGE_DRAFT_VARIANT;
-      const currentListing =
-        isPendingApprovalVariant || isDraftVariant
-          ? ensureOwnListing(getOwnListing(listingId))
-          : ensureListing(getListing(listingId));
-
-      const canCheckForYoutubeVideos =
-        currentListing && currentListing.attributes && currentListing.attributes.publicData;
-      if (canCheckForYoutubeVideos) {
-        clearInterval(this.timer);
-
-        // check if listing has youtube URL
-        if (currentListing.attributes.publicData.youtube) {
-          // initiate fetching videos
-          onFetchYoutubeVideos(currentListing.attributes.publicData.youtube);
-        } else {
-          // remove any videos currently in the store
-          onFetchYoutubeVideosSuccess([]);
-        }
-      }
-    }, 500);
+    // remove any previously loaded videos
+    const { onFetchYoutubeVideosSuccess } = this.props;
+    onFetchYoutubeVideosSuccess([]);
   }
 
   handleSubmit(values) {

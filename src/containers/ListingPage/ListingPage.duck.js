@@ -9,6 +9,7 @@ import { TRANSITION_ENQUIRE } from '../../util/transaction';
 import {
   LISTING_PAGE_DRAFT_VARIANT,
   LISTING_PAGE_PENDING_APPROVAL_VARIANT,
+  YOUTUBE_URL_RGX,
 } from '../../util/urlHelpers';
 import { fetchCurrentUser, fetchCurrentUserHasOrdersSuccess } from '../../ducks/user.duck';
 import fetchFromYoutube from '../../util/youtubeAPILoader';
@@ -160,151 +161,10 @@ export const fetchYoutubeVideosError = e => ({
 
 // ================ Thunks ================ //
 
-export const showListing = (listingId, isOwn = false) => (dispatch, getState, sdk) => {
-  dispatch(showListingRequest(listingId));
-  dispatch(fetchCurrentUser());
-  const params = {
-    id: listingId,
-    include: ['author', 'author.profileImage', 'images'],
-    'fields.image': [
-      // Listing page
-      'variants.landscape-crop',
-      'variants.landscape-crop2x',
-      'variants.landscape-crop4x',
-      'variants.landscape-crop6x',
-
-      // Social media
-      'variants.facebook',
-      'variants.twitter',
-
-      // Image carousel
-      'variants.scaled-small',
-      'variants.scaled-medium',
-      'variants.scaled-large',
-      'variants.scaled-xlarge',
-
-      // Avatars
-      'variants.square-small',
-      'variants.square-small2x',
-    ],
-  };
-
-  const show = isOwn ? sdk.ownListings.show(params) : sdk.listings.show(params);
-
-  return show
-    .then(data => {
-      dispatch(addMarketplaceEntities(data));
-      return data;
-    })
-    .catch(e => {
-      dispatch(showListingError(storableError(e)));
-    });
-};
-
-export const fetchReviews = listingId => (dispatch, getState, sdk) => {
-  dispatch(fetchReviewsRequest());
-  return sdk.reviews
-    .query({
-      listing_id: listingId,
-      state: 'public',
-      include: ['author', 'author.profileImage'],
-      'fields.image': ['variants.square-small', 'variants.square-small2x'],
-    })
-    .then(response => {
-      const reviews = denormalisedResponseEntities(response);
-      dispatch(fetchReviewsSuccess(reviews));
-    })
-    .catch(e => {
-      dispatch(fetchReviewsError(storableError(e)));
-    });
-};
-
-const timeSlotsRequest = params => (dispatch, getState, sdk) => {
-  return sdk.timeslots.query(params).then(response => {
-    return denormalisedResponseEntities(response);
-  });
-};
-
-export const fetchTimeSlots = listingId => (dispatch, getState, sdk) => {
-  dispatch(fetchTimeSlotsRequest);
-
-  // Time slots can be fetched for 90 days at a time,
-  // for at most 180 days from now. If max number of bookable
-  // day exceeds 90, a second request is made.
-
-  const maxTimeSlots = 90;
-  // booking range: today + bookable days -1
-  const bookingRange = config.dayCountAvailableForBooking - 1;
-  const timeSlotsRange = Math.min(bookingRange, maxTimeSlots);
-
-  const start = moment
-    .utc()
-    .startOf('day')
-    .toDate();
-  const end = moment()
-    .utc()
-    .startOf('day')
-    .add(timeSlotsRange, 'days')
-    .toDate();
-  const params = { listingId, start, end };
-
-  return dispatch(timeSlotsRequest(params))
-    .then(timeSlots => {
-      const secondRequest = bookingRange > maxTimeSlots;
-
-      if (secondRequest) {
-        const secondRange = Math.min(maxTimeSlots, bookingRange - maxTimeSlots);
-        const secondParams = {
-          listingId,
-          start: end,
-          end: moment(end)
-            .add(secondRange, 'days')
-            .toDate(),
-        };
-
-        return dispatch(timeSlotsRequest(secondParams)).then(secondBatch => {
-          const combined = timeSlots.concat(secondBatch);
-          dispatch(fetchTimeSlotsSuccess(combined));
-        });
-      } else {
-        dispatch(fetchTimeSlotsSuccess(timeSlots));
-      }
-    })
-    .catch(e => {
-      dispatch(fetchTimeSlotsError(storableError(e)));
-    });
-};
-
-export const sendEnquiry = (listingId, message) => (dispatch, getState, sdk) => {
-  dispatch(sendEnquiryRequest());
-  const bodyParams = {
-    transition: TRANSITION_ENQUIRE,
-    processAlias: config.bookingProcessAlias,
-    params: { listingId },
-  };
-  return sdk.transactions
-    .initiate(bodyParams)
-    .then(response => {
-      const transactionId = response.data.data.id;
-
-      // Send the message to the created transaction
-      return sdk.messages.send({ transactionId, content: message }).then(() => {
-        dispatch(sendEnquirySuccess());
-        dispatch(fetchCurrentUserHasOrdersSuccess(true));
-        return transactionId;
-      });
-    })
-    .catch(e => {
-      dispatch(sendEnquiryError(storableError(e)));
-      throw e;
-    });
-};
-
 export const fetchYoutubeVideos = youtubeURL => (dispatch, getState) => {
   dispatch(fetchYoutubeVideosRequest());
 
-  const urlRgx = /^https:\/\/www\.youtube\.com\/(channel|user)\/(.*)$/;
-  const matches = youtubeURL.match(urlRgx);
+  const matches = youtubeURL.match(YOUTUBE_URL_RGX);
   if (!matches) return;
 
   const [, type, id] = matches;
@@ -414,6 +274,161 @@ export const fetchYoutubeVideos = youtubeURL => (dispatch, getState) => {
     })
     .catch(e => {
       dispatch(fetchYoutubeVideosError(storableError(e)));
+    });
+};
+
+export const showListing = (listingId, isOwn = false) => (dispatch, getState, sdk) => {
+  dispatch(showListingRequest(listingId));
+  dispatch(fetchCurrentUser());
+  const params = {
+    id: listingId,
+    include: ['author', 'author.profileImage', 'images'],
+    'fields.image': [
+      // Listing page
+      'variants.landscape-crop',
+      'variants.landscape-crop2x',
+      'variants.landscape-crop4x',
+      'variants.landscape-crop6x',
+
+      // Social media
+      'variants.facebook',
+      'variants.twitter',
+
+      // Image carousel
+      'variants.scaled-small',
+      'variants.scaled-medium',
+      'variants.scaled-large',
+      'variants.scaled-xlarge',
+
+      // Avatars
+      'variants.square-small',
+      'variants.square-small2x',
+    ],
+  };
+
+  const show = isOwn ? sdk.ownListings.show(params) : sdk.listings.show(params);
+
+  return show
+    .then(data => {
+      dispatch(addMarketplaceEntities(data));
+
+      // initiate fetch for Youtube videos if there's an associated channel
+      const youtubeUrl =
+        data &&
+        data.data &&
+        data.data.data &&
+        data.data.data.attributes &&
+        data.data.data.attributes.publicData &&
+        data.data.data.attributes.publicData.youtube;
+      if (youtubeUrl) {
+        dispatch(fetchYoutubeVideos(youtubeUrl));
+      } else {
+        // remove any other listing's videos
+        dispatch(fetchYoutubeVideosSuccess([]));
+      }
+      return data;
+    })
+    .catch(e => {
+      dispatch(showListingError(storableError(e)));
+    });
+};
+
+export const fetchReviews = listingId => (dispatch, getState, sdk) => {
+  dispatch(fetchReviewsRequest());
+  return sdk.reviews
+    .query({
+      listing_id: listingId,
+      state: 'public',
+      include: ['author', 'author.profileImage'],
+      'fields.image': ['variants.square-small', 'variants.square-small2x'],
+    })
+    .then(response => {
+      const reviews = denormalisedResponseEntities(response);
+      dispatch(fetchReviewsSuccess(reviews));
+    })
+    .catch(e => {
+      dispatch(fetchReviewsError(storableError(e)));
+    });
+};
+
+const timeSlotsRequest = params => (dispatch, getState, sdk) => {
+  return sdk.timeslots.query(params).then(response => {
+    return denormalisedResponseEntities(response);
+  });
+};
+
+export const fetchTimeSlots = listingId => (dispatch, getState, sdk) => {
+  dispatch(fetchTimeSlotsRequest);
+
+  // Time slots can be fetched for 90 days at a time,
+  // for at most 180 days from now. If max number of bookable
+  // day exceeds 90, a second request is made.
+
+  const maxTimeSlots = 90;
+  // booking range: today + bookable days -1
+  const bookingRange = config.dayCountAvailableForBooking - 1;
+  const timeSlotsRange = Math.min(bookingRange, maxTimeSlots);
+
+  const start = moment
+    .utc()
+    .startOf('day')
+    .toDate();
+  const end = moment()
+    .utc()
+    .startOf('day')
+    .add(timeSlotsRange, 'days')
+    .toDate();
+  const params = { listingId, start, end };
+
+  return dispatch(timeSlotsRequest(params))
+    .then(timeSlots => {
+      const secondRequest = bookingRange > maxTimeSlots;
+
+      if (secondRequest) {
+        const secondRange = Math.min(maxTimeSlots, bookingRange - maxTimeSlots);
+        const secondParams = {
+          listingId,
+          start: end,
+          end: moment(end)
+            .add(secondRange, 'days')
+            .toDate(),
+        };
+
+        return dispatch(timeSlotsRequest(secondParams)).then(secondBatch => {
+          const combined = timeSlots.concat(secondBatch);
+          dispatch(fetchTimeSlotsSuccess(combined));
+        });
+      } else {
+        dispatch(fetchTimeSlotsSuccess(timeSlots));
+      }
+    })
+    .catch(e => {
+      dispatch(fetchTimeSlotsError(storableError(e)));
+    });
+};
+
+export const sendEnquiry = (listingId, message) => (dispatch, getState, sdk) => {
+  dispatch(sendEnquiryRequest());
+  const bodyParams = {
+    transition: TRANSITION_ENQUIRE,
+    processAlias: config.bookingProcessAlias,
+    params: { listingId },
+  };
+  return sdk.transactions
+    .initiate(bodyParams)
+    .then(response => {
+      const transactionId = response.data.data.id;
+
+      // Send the message to the created transaction
+      return sdk.messages.send({ transactionId, content: message }).then(() => {
+        dispatch(sendEnquirySuccess());
+        dispatch(fetchCurrentUserHasOrdersSuccess(true));
+        return transactionId;
+      });
+    })
+    .catch(e => {
+      dispatch(sendEnquiryError(storableError(e)));
+      throw e;
     });
 };
 
