@@ -26,7 +26,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const enforceSsl = require('express-enforces-ssl');
+const sslRedirect = require('heroku-ssl-redirect');
 const path = require('path');
 const sharetribeSdk = require('sharetribe-flex-sdk');
 const Decimal = require('decimal.js');
@@ -70,6 +70,9 @@ app.use(log.requestHandler());
 // See: https://www.npmjs.com/package/helmet
 app.use(helmet());
 
+// Redirect HTTP to HTTPS
+app.use(sslRedirect());
+
 if (cspEnabled) {
   // When a CSP directive is violated, the browser posts a JSON body
   // to the defined report URL and we need to parse this body.
@@ -85,16 +88,6 @@ if (cspEnabled) {
   // mode, the browser also blocks the requests.
   const reportOnly = CSP === 'report';
   app.use(csp(cspReportUrl, USING_SSL, reportOnly));
-}
-
-// Redirect HTTP to HTTPS if USING_SSL is `true`.
-// This also works behind reverse proxies (load balancers) as they are for example used by Heroku.
-// In such cases, however, the TRUST_PROXY parameter has to be set (see below)
-//
-// Read more: https://github.com/aredo/express-enforces-ssl
-//
-if (USING_SSL) {
-  app.use(enforceSsl());
 }
 
 // Set the TRUST_PROXY when running the app behind a reverse proxy.
