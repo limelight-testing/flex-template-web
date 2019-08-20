@@ -78,7 +78,7 @@ faith belief that such action is deemed necessary or required in an effort to:</
 <ul className={css.list}>
   <li>Remain in conformance with any decrees, laws and/or statutes or in an effort to
 comply with any process which may be served upon The Limelight Internet Showcase,
-LLCand/or its website;</li>
+LLC and/or its website;</li>
 <li>Maintain, safeguard and/or preserve all the rights and/or property ofThe Limelight
 Internet Showcase, LLC; and</li>
 <li>Perform under demanding conditions in an effort to safeguard the personal safety of
