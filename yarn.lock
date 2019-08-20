@@ -6091,6 +6091,11 @@ heroku-exec-util@0.7.3:
     temp "0.8.3"
     uuid "3.2.1"
 
+heroku-ssl-redirect@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/heroku-ssl-redirect/-/heroku-ssl-redirect-0.0.4.tgz#21ba0707aa503b50a412a0946abfaa88ef7d082c"
+  integrity sha1-IboHB6pQO1CkEqCUar+qiO99CCw=
+
 heroku@^7.26.2:
   version "7.26.2"
   resolved "https://registry.yarnpkg.com/heroku/-/heroku-7.26.2.tgz#e54ed53e2a041a26ba3fe9388b3c92700329b30b"
