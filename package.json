@@ -27,6 +27,7 @@
     "final-form-arrays": "^1.1.0",
     "helmet": "^3.18.0",
     "heroku": "^7.26.2",
+    "heroku-ssl-redirect": "^0.0.4",
     "lodash": "^4.17.11",
     "mapbox-gl-multitouch": "^1.0.3",
     "moment": "^2.22.2",
