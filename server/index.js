@@ -71,7 +71,7 @@ app.use(log.requestHandler());
 app.use(helmet());
 
 // Redirect HTTP to HTTPS
-app.use(sslRedirect());
+app.use(sslRedirect(['production'], 301));
 
 if (cspEnabled) {
   // When a CSP directive is violated, the browser posts a JSON body

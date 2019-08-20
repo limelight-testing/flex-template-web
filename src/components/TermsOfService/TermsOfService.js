@@ -51,13 +51,13 @@ affiliate / advertising partners may also use cookies.
       <p>
 Unless otherwise stated, The Limelight Internet Showcase, LLC and/or it's licensors own the intellectual property rights for
 all material on The Limelight Internet Showcase, LLC. All intellectual property rights are reserved. You may view and/or print
-pages from <ExternalLink href="https://www.limelightmusicmarketplace.com/">https://www.limelightmusicmarketplace.com</ExternalLink> for your own personal use subject to restrictions set in these terms and conditions.
+pages from <ExternalLink href="https://www.limelighttalentbooking.com/">https://www.limelighttalentbooking.com</ExternalLink> for your own personal use subject to restrictions set in these terms and conditions.
 You must not:
       </p>
 <ul className={css.list}>
-  <li>Republish material from <ExternalLink href="https://www.limelightmusicmarketplace.com/">https://www.limelightmusicmarketplace.com</ExternalLink></li>
-<li>Sell, rent or sub-license material from <ExternalLink href="https://www.limelightmusicmarketplace.com/">https://www.limelightmusicmarketplace.com</ExternalLink></li>
-<li>Reproduce, duplicate or copy material from <ExternalLink href="https://www.limelightmusicmarketplace.com/">https://www.limelightmusicmarketplace.com</ExternalLink></li>
+  <li>Republish material from <ExternalLink href="https://www.limelighttalentbooking.com/">https://www.limelighttalentbooking.com</ExternalLink></li>
+<li>Sell, rent or sub-license material from <ExternalLink href="https://www.limelighttalentbooking.com/">https://www.limelighttalentbooking.com</ExternalLink></li>
+<li>Reproduce, duplicate or copy material from <ExternalLink href="https://www.limelighttalentbooking.com/">https://www.limelighttalentbooking.com</ExternalLink></li>
 <li>Redistribute content from The Limelight Internet Showcase, LLC (unless content is specifically made for redistribution).</li>
 </ul>
 
