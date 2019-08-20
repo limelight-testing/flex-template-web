@@ -82,7 +82,7 @@ LLCand/or its website;</li>
 <li>Maintain, safeguard and/or preserve all the rights and/or property ofThe Limelight
 Internet Showcase, LLC; and</li>
 <li>Perform under demanding conditions in an effort to safeguard the personal safety of
-users of limelighttalentbooking.com and/or the general public.</li>
+users of <ExternalLink href="https://www.limelighttalentbooking.com">https://www.limelighttalentbooking.com</ExternalLink> and/or the general public.</li>
 </ul>
 <h3>Non-Marketing Purposes</h3>
 <p>
