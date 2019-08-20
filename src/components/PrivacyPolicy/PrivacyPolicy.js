@@ -25,7 +25,7 @@ to exceed most existing privacy standards.
 </p>
 <p>
 THEREFORE, this Privacy Policy Agreement shall apply toThe Limelight Internet Showcase,
-LLC, and thus it shall govern any and all data collection and usage thereof. Through the use of <ExternalLink href="https://www.limelightmusicmarketplace.com">https://www.limelightmusicmarketplace.com</ExternalLink> you are herein consenting to the following data procedures
+LLC, and thus it shall govern any and all data collection and usage thereof. Through the use of <ExternalLink href="https://www.limelighttalentbooking.com">https://www.limelighttalentbooking.com</ExternalLink> you are herein consenting to the following data procedures
 expressed within this agreement.
       </p>
 <p>
@@ -64,7 +64,7 @@ The Limelight Internet Showcase, LLCmay collect and may make use of personal inf
 to assist in the operation of our website and to ensure delivery of the services you need and
 request. At times, we may find it necessary to use personally identifiable information as a
 means to keep you informed of other possible products and/or services that may be available
-to you from limelightmusicmarketplace.com. The Limelight Internet Showcase, LLC may also
+to you from limelighttalentbooking.com. The Limelight Internet Showcase, LLC may also
 be in contact with you with regards to completing surveys and/or research questionnaires
 related to your opinion of current or potential future services that may be offered.
 The Limelight Internet Showcase, LLCdoes not now, nor will it in the future, sell, rent or lease
@@ -82,7 +82,7 @@ LLCand/or its website;</li>
 <li>Maintain, safeguard and/or preserve all the rights and/or property ofThe Limelight
 Internet Showcase, LLC; and</li>
 <li>Perform under demanding conditions in an effort to safeguard the personal safety of
-users of limelightmusicmarketplace.comand/or the general public.</li>
+users of limelighttalentbooking.com and/or the general public.</li>
 </ul>
 <h3>Non-Marketing Purposes</h3>
 <p>
